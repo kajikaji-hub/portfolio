@@ -1,0 +1,735 @@
+<title>梶原充稀 — 縦動画編集ポートフォリオ</title>
+
+<style>
+  /* ==========================================================================
+     配色の出どころ：みつき自身のテロップとティア表。
+     白文字＋濃紺の縁、S=黄 / A=赤 / B=青、強調の緑と紫。
+     青春＝明るさなので **ライト一本に振り切る**（ダークテーマは持たない）。
+     ========================================================================== */
+  :root,
+  :root[data-theme="dark"],
+  :root[data-theme="light"] {
+    color-scheme: light;
+
+    --sky-1: #7fd0ff;
+    --sky-2: #c8ecff;
+    --ground: #f2fbff;
+    --surface: #ffffff;
+    --ink: #123a63;
+    --ink-2: #5c86ad;
+    --line: #cfeaff;
+
+    --tier-s: #ffc61a;
+    --tier-a: #ff4d63;
+    --tier-b: #2f95ff;
+    --tier-g: #16c079;
+    --tier-p: #9a6bff;
+    --pop: #ff8a3d;
+
+    --stroke: #123a63;
+    --card-shadow: 0 2px 5px rgba(18, 58, 99, 0.09), 0 16px 30px -18px rgba(18, 58, 99, 0.45);
+    --card-shadow-lift: 0 5px 14px rgba(18, 58, 99, 0.16), 0 30px 50px -22px rgba(18, 58, 99, 0.6);
+
+    --jp: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic Medium",
+      "Yu Gothic", "Noto Sans JP", sans-serif;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+
+    --pad: clamp(20px, 5vw, 40px);
+    --gap: clamp(64px, 9vw, 112px);
+  }
+
+  body {
+    background:
+      radial-gradient(140% 70% at 50% -6%, #ffffff 0%, var(--sky-2) 34%, var(--ground) 72%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--jp);
+    font-size: 16px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 var(--pad);
+  }
+
+  main.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    padding-block: clamp(52px, 8vw, 88px) clamp(56px, 9vw, 96px);
+  }
+
+  /* ---------- テロップ見出し（白文字＋濃紺の縁） ---------- */
+  .telop {
+    color: #fff;
+    -webkit-text-stroke: 0.085em var(--stroke);
+    paint-order: stroke fill;
+    text-shadow: 0 0.07em 0 rgba(18, 58, 99, 0.3);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.26;
+    text-wrap: balance;
+  }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 18px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .sec-head h2 {
+    font-size: clamp(1.7rem, 5vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    position: relative;
+    padding-bottom: 6px;
+  }
+  /* 見出しの下にマーカーを引く＝ノートに線を引いた感じ */
+  .sec-head h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--tier-s);
+    opacity: 0.55;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+  }
+  .reveal.in .sec-head h2::after { transform: scaleX(1); }
+  .sec-head .note {
+    color: var(--ink-2);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* ---------- ヒーロー ---------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(84px, 15vw, 168px) clamp(72px, 12vw, 132px);
+  }
+  .hero-wall {
+    position: absolute;
+    inset: -10% -4%;
+    z-index: -2;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    transform: rotate(-6deg) scale(1.22);
+    opacity: 0.72;
+  }
+  .hero-wall .col {
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--sky-2);
+  }
+  /* iOSのvideo要素数の上限に引っかからないよう1カラム1要素に抑える */
+  .hero-wall video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(226, 244, 255, 0.62) 46%,
+      rgba(242, 251, 255, 0.94) 82%,
+      var(--ground) 100%
+    );
+  }
+
+  .hero-inner { position: relative; }
+  .hero h1 {
+    font-size: clamp(1.92rem, 7.9vw, 5.4rem);
+    margin-block: 16px 20px;
+  }
+  .hero h1 .line { display: block; }
+  .hero h1 .hl { color: var(--tier-s); }
+  .hero .lead {
+    max-width: 40ch;
+    font-size: clamp(1rem, 2.3vw, 1.16rem);
+    font-weight: 700;
+  }
+  .hero .sub {
+    max-width: 46ch;
+    margin-top: 12px;
+    color: var(--ink-2);
+    font-size: 0.94rem;
+  }
+  .hero .name {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    box-shadow: 0 3px 0 var(--ink);
+  }
+  .hero .name::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--tier-a);
+  }
+
+  /* ---------- 実績バンド ---------- */
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: clamp(10px, 1.6vw, 16px);
+  }
+  .figures div {
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    box-shadow: 0 4px 0 var(--ink);
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .figures b {
+    font-size: clamp(1.6rem, 4.4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+  }
+  .figures b small { font-size: 0.54em; font-weight: 800; margin-left: 3px; }
+  .figures span { color: var(--ink-2); font-size: 0.78rem; line-height: 1.6; }
+  .figures div:nth-child(1) b { color: var(--tier-a); }
+  .figures div:nth-child(2) b { color: var(--tier-b); }
+  .figures div:nth-child(3) b { color: var(--tier-g); }
+  .figures div:nth-child(4) b { color: var(--pop); }
+
+  /* ---------- 作品：横スクロール ----------
+     9本を縦に積むとスマホで延々スクロールになるので横送りにする。
+     画面端まで使いたいので、親の余白ぶんだけ外へはみ出させて内側で戻す。 */
+  .works {
+    display: flex;
+    gap: clamp(14px, 2.4vw, 26px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--pad);
+    margin-inline: calc(var(--pad) * -1);
+    padding: 4px var(--pad) 18px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--tier-b) transparent;
+    overscroll-behavior-x: contain;
+  }
+  .works::-webkit-scrollbar { height: 8px; }
+  .works::-webkit-scrollbar-track {
+    background: rgba(18, 58, 99, 0.08);
+    border-radius: 999px;
+  }
+  .works::-webkit-scrollbar-thumb {
+    background: var(--tier-b);
+    border-radius: 999px;
+  }
+  .work {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 0 0 min(74vw, 300px);
+    scroll-snap-align: start;
+  }
+  .frame {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--sky-2);
+    border: 3px solid var(--surface);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .frame:hover { transform: translateY(-5px); box-shadow: var(--card-shadow-lift); }
+  .frame video,
+  .frame .poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .frame video { opacity: 0; transition: opacity 0.25s ease; }
+  .frame.ready video { opacity: 1; }
+
+  .tag {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: #10203a;
+    border: 2px solid rgba(18, 58, 99, 0.9);
+    box-shadow: 0 2px 0 rgba(18, 58, 99, 0.9);
+  }
+  .tag[data-kind="ティア表"] { background: var(--tier-s); }
+  .tag[data-kind="ランキング"] { background: var(--tier-a); color: #fff; }
+  .tag[data-kind="あるある系"] { background: var(--tier-b); color: #fff; }
+  .tag[data-kind="街頭インタビュー"] { background: var(--tier-g); color: #fff; }
+  .tag[data-kind="ゲーム企画"] { background: var(--tier-p); color: #fff; }
+
+  .len {
+    position: absolute;
+    right: 11px;
+    bottom: 11px;
+    padding: 2px 9px;
+    border-radius: 7px;
+    background: rgba(10, 30, 52, 0.76);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+  }
+  .play:focus-visible { outline: 4px solid var(--tier-s); outline-offset: -4px; }
+  .disc {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    border: 3px solid var(--ink);
+    box-shadow: 0 4px 0 var(--ink);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s;
+  }
+  .disc svg { width: 24px; height: 24px; margin-left: 3px; }
+  .frame:hover .disc { transform: translateY(-2px) scale(1.06); }
+  .frame.playing .disc { opacity: 0; transform: scale(0.8); }
+  .work h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.6;
+  }
+  .work .sns {
+    color: var(--tier-b);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-bottom: 2px solid currentColor;
+    align-self: flex-start;
+  }
+
+  /* ---------- できること ---------- */
+  .craft {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+    gap: clamp(10px, 1.6vw, 16px);
+    list-style: none;
+  }
+  .craft li {
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 0 4px 0 var(--ink);
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .craft b { font-size: 0.94rem; font-weight: 800; }
+  .craft span { color: var(--ink-2); font-size: 0.82rem; line-height: 1.75; }
+
+  /* ---------- 強み ---------- */
+  .edge {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+    gap: clamp(18px, 2.6vw, 26px);
+  }
+  .edge article {
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 0 5px 0 var(--ink);
+    padding: clamp(22px, 3vw, 30px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .edge h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.6;
+    text-wrap: balance;
+  }
+  .edge h3 mark {
+    background: linear-gradient(transparent 62%, var(--tier-s) 62%);
+    color: inherit;
+    padding: 0 2px;
+  }
+  .edge p { color: var(--ink-2); font-size: 0.88rem; }
+
+  /* ---------- 連絡先 ---------- */
+  .contact {
+    background: var(--tier-b);
+    color: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: 0 7px 0 var(--ink);
+    padding: clamp(34px, 6vw, 60px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .contact h2 {
+    font-size: clamp(1.45rem, 4.4vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.45;
+    text-wrap: balance;
+    color: #fff;
+  }
+  .contact h2 .hl { color: var(--tier-s); }
+  .contact p {
+    max-width: 46ch;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+  }
+  .contact .mail {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    background: var(--tier-s);
+    color: #33270a;
+    border: 3px solid var(--ink);
+    box-shadow: 0 5px 0 var(--ink);
+    font-weight: 800;
+    font-size: clamp(0.86rem, 2.4vw, 1rem);
+    text-decoration: none;
+    word-break: break-all;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+  }
+  .contact .mail:hover { transform: translateY(-3px); box-shadow: 0 8px 0 var(--ink); }
+  .contact .mail:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
+  .contact .mail:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
+  .contact small { color: rgba(255, 255, 255, 0.75); font-size: 0.76rem; }
+
+  footer {
+    text-align: center;
+    color: var(--ink-2);
+    font-size: 0.76rem;
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- 出現アニメ ----------
+     ★ opacity:0 は .js が付いているときだけ。JSが動かない/コケた環境でも
+        コンテンツが必ず見えるようにしておく（透明のまま固まる事故の防止） */
+  .js .reveal { opacity: 0; transform: translateY(20px); }
+  .js .reveal.in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .js .stagger > * { opacity: 0; transform: translateY(14px); }
+  .js .in.stagger > *, .js .in .stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .stagger > *, .js .reveal, .js .stagger > * { opacity: 1; transform: none; transition: none; }
+    .frame:hover { transform: none; }
+    .sec-head h2::after { transform: scaleX(1); transition: none; }
+  }
+</style>
+
+<header class="hero">
+  <div class="hero-wall" aria-hidden="true">
+    <div class="col"><video data-wall="c1" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="c2" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="c3" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="c4" muted loop playsinline autoplay preload="auto"></video></div>
+  </div>
+  <div class="wrap hero-inner">
+    <span class="name">梶原充稀／岡山</span>
+    <h1 class="telop">
+      <span class="line">高校生が編集する、</span>
+      <span class="line"><span class="hl">中高生に届く</span>縦動画。</span>
+    </h1>
+    <p class="lead">TikTok・Instagram Reels の縦動画を、素材から公開できる状態まで仕上げます。</p>
+    <p class="sub">学校ネタ・ティア表・ランキング・街頭インタビュー。中高生に何が刺さるかを、当事者として判断しながらつくっています。</p>
+  </div>
+</header>
+
+<main class="wrap stack">
+  <section class="reveal">
+    <div class="figures stagger">
+      <div><b>約100<small>本</small></b><span>これまでの納品本数</span></div>
+      <div><b>1年4<small>ヶ月</small></b><span>2025年4月から継続中</span></div>
+      <div><b>5<small>つの型</small></b><span>企画フォーマットを設計</span></div>
+      <div><b>縦<small>専門</small></b><span>1080×1920 のみ</span></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head">
+      <h2>つくったもの</h2>
+      <p class="note">各12秒。タップで音が出ます／横にスワイプで全9本</p>
+    </div>
+    <div class="works" id="works"></div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head">
+      <h2>やっていること</h2>
+      <p class="note">撮影素材をお預かりして、そのまま投稿できる状態まで</p>
+    </div>
+    <ul class="craft stagger">
+      <li><b>無音カット・尺調整</b><span>言い淀みと間を詰めて、最後まで見られるテンポにします</span></li>
+      <li><b>テロップ全打ち</b><span>縁取り・色分け・強調。音を出さずに見る人を前提に組みます</span></li>
+      <li><b>ティア表・ランキングUI</b><span>結果が埋まっていく画面を一から設計します</span></li>
+      <li><b>写真・イラストの差し込み</b><span>言葉だけで伝わらない部分を図で補います</span></li>
+      <li><b>効果音・BGM</b><span>笑いどころと転換点を音で立てます</span></li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head">
+      <h2>ほかの編集者と違うところ</h2>
+    </div>
+    <div class="edge stagger">
+      <article>
+        <h3><mark>「これ高校生に刺さるか」</mark>を当事者として判断できる</h3>
+        <p>中高生向けの企画は、大人がつくると言い回しが少しずつズレます。自分は現役の高校生なので、テロップの一言が刺さるのか寒いのかを肌感覚で選べます。学校ネタの動画を毎週つくっているのも同じ理由です。</p>
+      </article>
+      <article>
+        <h3>下ごしらえを<mark>自動化</mark>しているぶん、演出に時間を回せる</h3>
+        <p>文字起こし・無音カット・テロップの整形は自分用の仕組みで自動化しています。作業時間が短い代わりに手を抜くのではなく、浮いた時間を演出とテンポの詰めに使っています。</p>
+      </article>
+      <article>
+        <h3>同じ型を<mark>何十本も回して</mark>、精度を上げている</h3>
+        <p>ティア表もランキングも街頭インタビューも、単発ではなく毎週の連載として積んできました。どこで引きをつくってどこで落とすか、量をこなす前提の進行に慣れています。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="contact reveal">
+    <h2>1本だけ試してみる、<span class="hl">から歓迎です。</span></h2>
+    <p>「こういう動画をつくりたいけど編集する人がいない」という段階でも構いません。参考にしたい動画のURLがあれば、それを見てできるかどうかお答えします。料金と納期はご相談ください。</p>
+    <a class="mail" href="mailto:mitsuki.kajiwara2008@gmail.com">mitsuki.kajiwara2008@gmail.com</a>
+    <small>返信は学校のある日だと夕方以降になります。</small>
+  </section>
+
+  <footer>© 2026 Mitsuki Kajiwara — Okayama, Japan</footer>
+</main>
+
+<script>
+  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4", "p": "assets/w1.jpg"}, "w2": {"v": "assets/w2.mp4", "p": "assets/w2.jpg"}, "w3": {"v": "assets/w3.mp4", "p": "assets/w3.jpg"}, "w4": {"v": "assets/w4.mp4", "p": "assets/w4.jpg"}, "w5": {"v": "assets/w5.mp4", "p": "assets/w5.jpg"}, "w6": {"v": "assets/w6.mp4", "p": "assets/w6.jpg"}, "w7": {"v": "assets/w7.mp4", "p": "assets/w7.jpg"}, "w8": {"v": "assets/w8.mp4", "p": "assets/w8.jpg"}, "w9": {"v": "assets/w9.mp4", "p": "assets/w9.jpg"}}, "wall": {"c1": "wall/col1.mp4", "c2": "wall/col2.mp4", "c3": "wall/col3.mp4", "c4": "wall/col4.mp4"}, "sns": {}};
+
+  document.documentElement.classList.add("js");
+
+  const SNS = MEDIA.sns || {};
+  const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* iOS Safari は data: URI の動画を大きくなると読み込まないことがある。
+     Blobに変換して blob: URL で渡すと安定する。失敗したら元のまま使う。 */
+  const blobCache = new Map();
+  function mediaUrl(uri) {
+    if (!uri.startsWith("data:")) return uri;   // 実ファイル参照はそのまま使う
+    if (blobCache.has(uri)) return blobCache.get(uri);
+    let out = uri;
+    try {
+      const comma = uri.indexOf(",");
+      const mime = uri.slice(5, uri.indexOf(";"));
+      const bin = atob(uri.slice(comma + 1));
+      const buf = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+      out = URL.createObjectURL(new Blob([buf], { type: mime }));
+    } catch (e) {
+      out = uri;
+    }
+    blobCache.set(uri, out);
+    return out;
+  }
+
+  const WORKS = [
+    { id: "w1", title: "「生徒の言い訳」ティア表", tag: "ティア表", len: "1:33" },
+    { id: "w2", title: "職員室によくいる先生の種類ランキング", tag: "ランキング", len: "1:15" },
+    { id: "w3", title: "先生ってなんでそんなに仕事多いんですか？", tag: "あるある系", len: "1:49" },
+    { id: "w4", title: "高校生に聞く 街頭インタビュー", tag: "街頭インタビュー", len: "1:27" },
+    { id: "w5", title: "人狼ゲーム", tag: "ゲーム企画", len: "1:26" },
+    { id: "w6", title: "短縮鉄道の夜", tag: "ゲーム企画", len: "1:46" },
+    { id: "w7", title: "誰が叩いたでしょう", tag: "ゲーム企画", len: "0:58" },
+    { id: "w8", title: "◯画の漢字 早書き対決", tag: "ゲーム企画", len: "1:08" },
+    { id: "w9", title: "3文字ゲーム", tag: "ゲーム企画", len: "1:06" },
+  ];
+
+  const PLAY_ICON =
+    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+
+  /* ---- 背景の動画ウォール（1カラム1要素） ---- */
+  document.querySelectorAll("[data-wall]").forEach((v) => {
+    v.src = mediaUrl(MEDIA.wall[v.dataset.wall]);
+    const kick = () => v.play().catch(() => {});
+    kick();
+    v.addEventListener("canplay", kick, { once: true });
+    v.addEventListener("loadeddata", kick, { once: true });
+  });
+
+  /* ---- 作品カード ---- */
+  const grid = document.getElementById("works");
+
+  WORKS.forEach((w) => {
+   try {
+    const m = MEDIA.works[w.id];
+    if (!m) return;
+    const art = document.createElement("article");
+    art.className = "work";
+    art.innerHTML = `
+      <div class="frame">
+        <img class="poster" src="${m.p}" alt="${w.title}" decoding="async">
+        <video playsinline loop muted preload="metadata"></video>
+        <span class="tag" data-kind="${w.tag}">${w.tag}</span>
+        <span class="len">${w.len}</span>
+        <button class="play" type="button" aria-label="${w.title} のプレビューを再生">
+          <span class="disc">${PLAY_ICON}</span>
+        </button>
+      </div>
+      <h3>${w.title}</h3>
+      ${SNS[w.id] ? `<a class="sns" href="${SNS[w.id]}" target="_blank" rel="noopener noreferrer">投稿を見る（フル尺）↗</a>` : ""}
+    `;
+    grid.appendChild(art);
+
+    const frame = art.querySelector(".frame");
+    const video = art.querySelector("video");
+    const btn = art.querySelector(".play");
+
+    // ★触られるまで何もしない。ページを開いた時点で9本ぶんをBlob化すると
+    //   数MBのデコードが一度に走ってiOSがメモリ切れで落ちる。
+    const ensureSrc = () => {
+      if (!video.src) video.src = mediaUrl(m.v);
+    };
+
+    const stop = () => {
+      video.pause();
+      video.currentTime = 0;
+      video.muted = true;
+      frame.classList.remove("playing", "ready");
+      btn.setAttribute("aria-label", `${w.title} のプレビューを再生`);
+    };
+
+    btn.addEventListener("click", () => {
+      if (frame.classList.contains("playing")) {
+        stop();
+        return;
+      }
+      document.querySelectorAll(".frame.playing").forEach((f) => {
+        const other = f.querySelector("video");
+        other.pause();
+        other.currentTime = 0;
+        other.muted = true;
+        f.classList.remove("playing", "ready");
+      });
+      // iOSは「音あり」で再生を始めようとすると弾く。必ずミュートで開始して、
+      // 再生が始まってから音を出す（この順序でないと一切再生されない）。
+      ensureSrc();
+      video.muted = true;
+      video.currentTime = 0;
+      frame.classList.add("playing", "ready");
+      btn.setAttribute("aria-label", `${w.title} のプレビューを停止`);
+      const p = video.play();
+      if (p) {
+        p.then(() => { video.muted = false; }).catch(() => { stop(); });
+      } else {
+        video.muted = false;
+      }
+    });
+
+    video.addEventListener("ended", stop);
+
+    if (window.matchMedia("(pointer: fine)").matches) {
+      frame.addEventListener("mouseenter", () => {
+        if (frame.classList.contains("playing")) return;
+        ensureSrc();
+        video.muted = true;
+        video.play().then(() => frame.classList.add("ready")).catch(() => {});
+      });
+      frame.addEventListener("mouseleave", () => {
+        if (frame.classList.contains("playing")) return;
+        video.pause();
+        video.currentTime = 0;
+        frame.classList.remove("ready");
+      });
+    }
+   } catch (e) { /* 1枚失敗しても残りは出す */ }
+  });
+
+  /* ---- スクロールで各セクションを出す ---- */
+  if (REDUCED) {
+    document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "0px 0px -4% 0px" }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+    document.querySelectorAll(".stagger").forEach((s) => {
+      [...s.children].forEach((c, i) => {
+        c.style.transitionDelay = `${Math.min(i * 55, 440)}ms`;
+      });
+    });
+
+    // 保険：何かの理由で監視が発火しなくても、2.5秒後には必ず出す
+    setTimeout(() => {
+      document.querySelectorAll(".reveal:not(.in)").forEach((el) => el.classList.add("in"));
+    }, 2500);
+  }
+</script>
