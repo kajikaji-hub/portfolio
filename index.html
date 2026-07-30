@@ -122,19 +122,48 @@
   }
   .hero-wall {
     position: absolute;
-    inset: -10% -4%;
+    inset: -6% -10%;
     z-index: -2;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    transform: rotate(-6deg) scale(1.22);
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+    justify-items: center;
+    gap: clamp(10px, 1.6vw, 22px);
+    transform: rotate(-7deg) scale(1.12);
     opacity: 0.72;
   }
+  /* 各カラムをスマホの筐体に見立てる（ベゼル＋ノッチ） */
   .hero-wall .col {
-    border-radius: 14px;
+    position: relative;
+    /* 端末の比率にして“スマホが並んでいる”と分かる形にする */
+    aspect-ratio: 9 / 19.5;
+    width: 100%;
+    border-radius: clamp(18px, 2.2vw, 30px);
     overflow: hidden;
-    background: var(--sky-2);
+    background: #0f2136;
+    border: clamp(4px, 0.55vw, 7px) solid #16283f;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55),
+      0 22px 44px -16px rgba(18, 58, 99, 0.55);
   }
+  .hero-wall .col::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34%;
+    height: clamp(9px, 1.1vw, 15px);
+    background: #16283f;
+    border-radius: 0 0 999px 999px;
+    z-index: 2;
+  }
+  /* 段違いに並べて“机に置いた何台か”の感じを出す */
+  .hero-wall .col:nth-child(1) { transform: translateY(-9%); }
+  .hero-wall .col:nth-child(2) { transform: translateY(6%); }
+  .hero-wall .col:nth-child(3) { transform: translateY(-4%); }
+  .hero-wall .col:nth-child(4) { transform: translateY(9%); }
+  .hero-wall .col:nth-child(5) { transform: translateY(-6%); }
+  .hero-wall .col:nth-child(6) { transform: translateY(4%); }
   /* iOSのvideo要素数の上限に引っかからないよう1カラム1要素に抑える */
   .hero-wall video {
     width: 100%;
@@ -228,35 +257,71 @@
   /* ---------- 作品：横スクロール ----------
      9本を縦に積むとスマホで延々スクロールになるので横送りにする。
      画面端まで使いたいので、親の余白ぶんだけ外へはみ出させて内側で戻す。 */
+  .works-wrap {
+    position: relative;
+    margin-inline: calc(var(--pad) * -1);
+  }
   .works {
+    --card: min(70vw, 320px);
     display: flex;
-    gap: clamp(14px, 2.4vw, 26px);
+    gap: clamp(14px, 2vw, 24px);
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    scroll-padding-left: var(--pad);
-    margin-inline: calc(var(--pad) * -1);
-    padding: 4px var(--pad) 18px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--tier-b) transparent;
+    /* 端の1枚も中央に来られるよう、左右に半画面ぶんの余白を取る */
+    padding: 8px calc(50% - var(--card) / 2) 22px;
     overscroll-behavior-x: contain;
+    scrollbar-width: none;
   }
-  .works::-webkit-scrollbar { height: 8px; }
-  .works::-webkit-scrollbar-track {
-    background: rgba(18, 58, 99, 0.08);
-    border-radius: 999px;
-  }
-  .works::-webkit-scrollbar-thumb {
-    background: var(--tier-b);
-    border-radius: 999px;
-  }
+  .works::-webkit-scrollbar { display: none; }
   .work {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    flex: 0 0 min(74vw, 300px);
-    scroll-snap-align: start;
+    flex: 0 0 var(--card);
+    scroll-snap-align: center;
+    transform: scale(0.84);
+    opacity: 0.45;
+    filter: saturate(0.75);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.45s ease, filter 0.45s ease;
+  }
+  .work.active {
+    transform: scale(1);
+    opacity: 1;
+    filter: none;
+  }
+  .work h3 { transition: opacity 0.35s ease; }
+  .work:not(.active) h3 { opacity: 0.6; }
+
+  /* 左右の送りボタン（マウス環境だけ） */
+  .nav {
+    position: absolute;
+    top: calc(50% - 24px);
+    transform: translateY(-50%);
+    z-index: 4;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    box-shadow: 0 4px 0 var(--ink);
+    display: none;
+    place-items: center;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s;
+  }
+  .nav svg { width: 22px; height: 22px; }
+  .nav.prev { left: max(8px, calc(var(--pad) - 10px)); }
+  .nav.next { right: max(8px, calc(var(--pad) - 10px)); }
+  .nav:hover { transform: translateY(calc(-50% - 2px)); }
+  .nav:active { transform: translateY(calc(-50% + 3px)); box-shadow: 0 1px 0 var(--ink); }
+  .nav:focus-visible { outline: 4px solid var(--tier-s); outline-offset: 3px; }
+  .nav[disabled] { opacity: 0.28; cursor: default; box-shadow: 0 4px 0 var(--ink); }
+  @media (pointer: fine) {
+    .nav { display: grid; }
   }
   .frame {
     position: relative;
@@ -489,6 +554,8 @@
     <div class="col"><video data-wall="c2" muted loop playsinline autoplay preload="auto"></video></div>
     <div class="col"><video data-wall="c3" muted loop playsinline autoplay preload="auto"></video></div>
     <div class="col"><video data-wall="c4" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="c2" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="c3" muted loop playsinline autoplay preload="auto"></video></div>
   </div>
   <div class="wrap hero-inner">
     <span class="name">梶原充稀／岡山</span>
@@ -514,9 +581,17 @@
   <section class="reveal">
     <div class="sec-head">
       <h2>つくったもの</h2>
-      <p class="note">各12秒。タップで音が出ます／横にスワイプで全9本</p>
+      <p class="note">各12秒。タップで音が出ます／横にスワイプで全9本（PCは左右の矢印）</p>
     </div>
-    <div class="works" id="works"></div>
+    <div class="works-wrap">
+      <button class="nav prev" type="button" aria-label="前の作品へ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="works" id="works"></div>
+      <button class="nav next" type="button" aria-label="次の作品へ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
   </section>
 
   <section class="reveal">
@@ -703,6 +778,59 @@
     }
    } catch (e) { /* 1枚失敗しても残りは出す */ }
   });
+
+  /* ---- カルーセル：中央の1本を大きく、左右の送りボタン ---- */
+  (() => {
+    const scroller = grid;
+    const prev = document.querySelector(".nav.prev");
+    const next = document.querySelector(".nav.next");
+    const cards = [...scroller.querySelectorAll(".work")];
+    if (!cards.length) return;
+
+    const step = () => {
+      if (cards.length < 2) return scroller.clientWidth;
+      return cards[1].offsetLeft - cards[0].offsetLeft;
+    };
+
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const box = scroller.getBoundingClientRect();
+      const center = box.left + box.width / 2;
+      let best = null;
+      let bestDist = Infinity;
+      cards.forEach((c) => {
+        const r = c.getBoundingClientRect();
+        const d = Math.abs(r.left + r.width / 2 - center);
+        if (d < bestDist) { bestDist = d; best = c; }
+      });
+      cards.forEach((c) => c.classList.toggle("active", c === best));
+      // 端に着いたら矢印を無効化する
+      const max = scroller.scrollWidth - scroller.clientWidth - 2;
+      if (prev) prev.disabled = scroller.scrollLeft <= 2;
+      if (next) next.disabled = scroller.scrollLeft >= max;
+    };
+
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
+    scroller.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+
+    const go = (dir) => {
+      scroller.scrollBy({ left: dir * step(), behavior: REDUCED ? "auto" : "smooth" });
+    };
+    if (prev) prev.addEventListener("click", () => go(-1));
+    if (next) next.addEventListener("click", () => go(1));
+
+    // 矢印キーでも送れるように
+    scroller.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+    });
+    scroller.tabIndex = 0;
+
+    update();
+    setTimeout(update, 300);
+  })();
 
   /* ---- スクロールで各セクションを出す ---- */
   if (REDUCED) {
