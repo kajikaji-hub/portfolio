@@ -475,10 +475,15 @@
     gap: 10px;
   }
   .offer-no {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
     font-family: var(--mono);
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
     color: var(--tier-b);
   }
   .offer-card:nth-child(2) .offer-no { color: var(--tier-a); }
@@ -486,16 +491,20 @@
   .offer-card > p { color: var(--ink-2); font-size: 0.88rem; }
   .offer-card ul {
     list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: 4px;
+    gap: 7px;
   }
   .offer-card li {
     position: relative;
     padding-left: 20px;
     font-size: 0.86rem;
     font-weight: 600;
+    line-height: 1.7;
+    text-wrap: pretty;
+    word-break: auto-phrase;
   }
   .offer-card li::before {
     content: "";
@@ -568,7 +577,8 @@
     gap: 10px;
   }
   .edge h3 {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
+    text-wrap: pretty;
     font-weight: 800;
     line-height: 1.6;
     text-wrap: balance;
@@ -583,16 +593,20 @@
   }
   .edge ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 8px;
   }
   .edge li {
     position: relative;
     padding-left: 20px;
     font-size: 0.86rem;
-    line-height: 1.75;
+    line-height: 1.7;
     font-weight: 600;
+    text-wrap: pretty;
+    word-break: auto-phrase;
   }
   .edge li::before {
     content: "";
@@ -609,8 +623,10 @@
   .edge article:nth-child(3) li::before { background: var(--tier-g); }
   .edge p {
     color: var(--ink-2);
-    font-size: 0.85rem;
-    line-height: 1.85;
+    font-size: 0.84rem;
+    line-height: 1.9;
+    text-wrap: pretty;
+    word-break: auto-phrase;
     padding-top: 10px;
     border-top: 1px dashed var(--line);
     margin-top: 4px;
@@ -639,6 +655,7 @@
     color: #fff;
   }
   .contact h2 .hl { color: var(--tier-s); }
+  .contact p b { color: var(--tier-s); font-weight: 800; }
   .contact p {
     max-width: 46ch;
     color: rgba(255, 255, 255, 0.9);
@@ -756,11 +773,11 @@
 
     <div class="offer stagger">
       <article class="offer-card">
-        <span class="offer-no">01</span>
+        <span class="offer-no">1</span>
         <h3>企画提案</h3>
         <p>オンラインで話を伺って、その方に合う企画を設計します。いまのアカウントと近い動画を分析して、どんな型なら伸びそうか、どの順番で見せると最後まで見てもらえるかを組み立てます。</p>
         <ul>
-          <li>ヒアリング（オンライン30分〜）</li>
+          <li>ヒアリング（発注後のお打ち合わせ）</li>
           <li>既存の投稿と参考動画の分析</li>
           <li>企画の型と構成の提案</li>
           <li>お題の案出し（企画によります）</li>
@@ -768,7 +785,7 @@
         </ul>
       </article>
       <article class="offer-card">
-        <span class="offer-no">02</span>
+        <span class="offer-no">2</span>
         <h3>編集</h3>
         <p>撮影素材をお預かりして、そのまま投稿できる状態まで仕上げます。企画から入った場合は、その構成に沿った見せ方で組みます。</p>
         <ul>
@@ -780,7 +797,7 @@
         </ul>
       </article>
     </div>
-    <p class="offer-note"><b>01だけ・02だけのご依頼も、まとめてのご依頼も受けています。</b>企画から入った場合は、その構成に沿って編集まで一気に通します。</p>
+    <p class="offer-note"><b>1だけ・2だけのご依頼も、まとめてのご依頼も受けています。</b>企画から入った場合は、その構成に沿って編集まで一気に通します。</p>
   </section>
 
   <section class="reveal">
@@ -790,28 +807,28 @@
     </div>
     <div class="edge stagger">
       <article>
-        <h3><mark>高校生の感覚</mark>と、仕事としての判断を両方持っている</h3>
+        <h3><mark>高校生の感覚</mark>と、仕事の判断</h3>
         <ul>
-          <li>テロップの一言が刺さるか寒いかを、本人の感覚で選べる</li>
-          <li>1年4ヶ月・約100本を毎週の納期で納品してきた</li>
-          <li>進行・修正のやり取りを仕事として回せる</li>
+          <li>刺さるか寒いかを感覚で選べる</li>
+          <li>1年4ヶ月・約100本を納期どおりに納品</li>
+          <li>進行や修正も仕事として回せる</li>
         </ul>
-        <p><strong>感覚だけの高校生でも、感覚のない業者でもない</strong>——この両方を持っている同世代を、自分はまだ知りません。</p>
+        <p>感覚だけの高校生でもなく、感覚のない業者でもない。<br><strong>同じことをしている同世代を、自分はまだ知りません。</strong></p>
       </article>
       <article>
-        <h3><mark>学校のアカウント</mark>を動かした経験がある</h3>
+        <h3><mark>学校のアカウント</mark>を動かした経験</h3>
         <ul>
-          <li>高校の公式アカウントに出す動画を担当していた</li>
-          <li>学校という場所で何を出せて何は出せないかが分かる</li>
-          <li>生徒や先生に出てもらうときの気をつけどころを知っている</li>
+          <li>高校の公式アカウントを担当していた</li>
+          <li>学校で何を出せるかが分かる</li>
+          <li>出演者への配慮も込みで組み立てる</li>
         </ul>
       </article>
       <article>
-        <h3><mark>企画から編集まで</mark>、一人で通せる</h3>
+        <h3><mark>企画から編集まで</mark>、一人で</h3>
         <ul>
-          <li>「どんな動画を出すか」を決めるところから入れる</li>
-          <li>企画を考えた本人が編集するので、狙いが途中で薄まらない</li>
-          <li>企画だけ・編集だけの依頼にも対応できる</li>
+          <li>「何を出すか」から一緒に決める</li>
+          <li>考えた本人が編集するのでぶれない</li>
+          <li>企画だけ・編集だけの依頼も可</li>
         </ul>
       </article>
     </div>
@@ -835,7 +852,7 @@
 
   <section class="contact reveal">
     <h2>1本だけ試してみる、<span class="hl">から歓迎です。</span></h2>
-    <p>「こういう動画をつくりたいけど編集する人がいない」という段階でも構いません。参考にしたい動画のURLがあれば、それを見てできるかどうかお答えします。料金と納期はご相談ください。</p>
+    <p>「こういう動画をつくりたいけど編集する人がいない」という段階でも構いません。参考にしたい動画のURLがあれば、それを見てできるかどうかお答えします。<br>まずは<b>オンライン30分の無料相談</b>から。料金は内容に応じて<b>個別にお見積もり</b>します。</p>
     <a class="mail" href="mailto:mitsuki.kajiwara2008@gmail.com">mitsuki.kajiwara2008@gmail.com</a>
     <small>返信は学校のある日だと夕方以降になります。</small>
   </section>
