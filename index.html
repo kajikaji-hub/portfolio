@@ -224,16 +224,19 @@
   .hero h1 .line { display: block; }
   .hero h1 .hl { color: var(--tier-s); }
   .hero .lead {
-    max-width: 40ch;
+    max-width: 46em;
     font-size: clamp(1rem, 2.3vw, 1.16rem);
     font-weight: 700;
   }
   .hero .sub {
-    max-width: 46ch;
+    max-width: 48em;
     margin-top: 12px;
     color: var(--ink-2);
     font-size: 0.94rem;
   }
+  /* 文の途中ではなく、文の切れ目で行を分ける */
+  .hero .sub span,
+  .contact p span { display: block; }
   .hero .name {
     display: inline-flex;
     align-items: center;
@@ -323,6 +326,7 @@
     opacity: 1;
     filter: none;
   }
+  .offer-card > p { text-wrap: pretty; word-break: auto-phrase; }
   .work h3 { transition: opacity 0.35s ease; }
   .work:not(.active) h3 { opacity: 0.6; }
 
@@ -423,6 +427,7 @@
   .disc svg { width: 24px; height: 24px; margin-left: 3px; }
   .frame:hover .disc { transform: translateY(-2px) scale(1.06); }
   .frame.playing .disc { opacity: 0; transform: scale(0.8); }
+  .offer-card > p { text-wrap: pretty; word-break: auto-phrase; }
   .work h3 {
     font-size: 1rem;
     font-weight: 800;
@@ -510,7 +515,7 @@
     content: "";
     position: absolute;
     left: 0;
-    top: 0.62em;
+    top: 0.5em;
     width: 10px;
     height: 10px;
     border-radius: 3px;
@@ -530,6 +535,8 @@
     line-height: 1.8;
   }
   .offer-note b { color: var(--ink); font-weight: 800; }
+  .offer-note span { display: block; }
+  .offer-note span + span { margin-top: 4px; }
 
   /* ---------- プロフィール ---------- */
   .profile dl {
@@ -612,7 +619,7 @@
     content: "";
     position: absolute;
     left: 0;
-    top: 0.6em;
+    top: 0.53em;
     width: 9px;
     height: 9px;
     border-radius: 50%;
@@ -657,10 +664,12 @@
   .contact h2 .hl { color: var(--tier-s); }
   .contact p b { color: var(--tier-s); font-weight: 800; }
   .contact p {
-    max-width: 46ch;
+    max-width: 52em;
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.9rem;
+    line-height: 1.9;
   }
+  .contact p .cta-line { margin-top: 10px; }
   .contact .mail {
     display: inline-block;
     margin-top: 6px;
@@ -734,7 +743,10 @@
       <span class="line"><span class="hl">Z世代に届く</span>縦動画。</span>
     </h1>
     <p class="lead">TikTok・Instagram Reels の縦動画を、素材から公開できる状態まで仕上げます。</p>
-    <p class="sub">学校ネタ・ティア表・ランキング・街頭インタビュー。同世代に何が刺さるかを、当事者として判断しながらつくっています。</p>
+    <p class="sub">
+      <span>学校ネタ・ティア表・ランキング・街頭インタビュー。</span>
+      <span>同世代に何が刺さるかを、当事者として判断しながらつくっています。</span>
+    </p>
   </div>
 </header>
 
@@ -797,7 +809,10 @@
         </ul>
       </article>
     </div>
-    <p class="offer-note"><b>1だけ・2だけのご依頼も、まとめてのご依頼も受けています。</b>企画から入った場合は、その構成に沿って編集まで一気に通します。</p>
+    <p class="offer-note">
+      <span><b>企画提案だけ・編集だけの個別対応も、両方をまとめたプランでの対応もできます。</b></span>
+      <span>まとめてのご依頼なら、企画で決めた構成に沿ってそのまま編集まで通します。</span>
+    </p>
   </section>
 
   <section class="reveal">
@@ -852,7 +867,11 @@
 
   <section class="contact reveal">
     <h2>1本だけ試してみる、<span class="hl">から歓迎です。</span></h2>
-    <p>「こういう動画をつくりたいけど編集する人がいない」という段階でも構いません。参考にしたい動画のURLがあれば、それを見てできるかどうかお答えします。<br>まずは<b>オンライン30分の無料相談</b>から。料金は内容に応じて<b>個別にお見積もり</b>します。</p>
+    <p>
+      <span>「こういう動画をつくりたいけど編集する人がいない」という段階でも構いません。</span>
+      <span>参考にしたい動画のURLがあれば、それを見てできるかどうかお答えします。</span>
+      <span class="cta-line">まずは<b>オンライン30分の無料相談</b>から。料金は内容に応じて<b>個別にお見積もり</b>します。</span>
+    </p>
     <a class="mail" href="mailto:mitsuki.kajiwara2008@gmail.com">mitsuki.kajiwara2008@gmail.com</a>
     <small>返信は学校のある日だと夕方以降になります。</small>
   </section>
