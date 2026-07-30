@@ -367,18 +367,6 @@
   .tag[data-kind="街頭インタビュー"] { background: var(--tier-g); color: #fff; }
   .tag[data-kind="ゲーム企画"] { background: var(--tier-p); color: #fff; }
 
-  .len {
-    position: absolute;
-    right: 11px;
-    bottom: 11px;
-    padding: 2px 9px;
-    border-radius: 7px;
-    background: rgba(10, 30, 52, 0.76);
-    color: #fff;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    font-variant-numeric: tabular-nums;
-  }
   .play {
     position: absolute;
     inset: 0;
@@ -642,7 +630,7 @@
 </main>
 
 <script>
-  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4?v=1785316392", "p": "assets/w1.jpg?v=1785296258"}, "w2": {"v": "assets/w2.mp4?v=1785316394", "p": "assets/w2.jpg?v=1785296258"}, "w3": {"v": "assets/w3.mp4?v=1785418364", "p": "assets/w3.jpg?v=1785418364"}, "w4": {"v": "assets/w4.mp4?v=1785420140", "p": "assets/w4.jpg?v=1785420140"}, "w5": {"v": "assets/w5.mp4?v=1785316401", "p": "assets/w5.jpg?v=1785296258"}, "w6": {"v": "assets/w6.mp4?v=1785316404", "p": "assets/w6.jpg?v=1785296258"}, "w7": {"v": "assets/w7.mp4?v=1785316406", "p": "assets/w7.jpg?v=1785296258"}, "w8": {"v": "assets/w8.mp4?v=1785316410", "p": "assets/w8.jpg?v=1785296258"}, "w9": {"v": "assets/w9.mp4?v=1785316412", "p": "assets/w9.jpg?v=1785296258"}}, "wall": {"bg1": "wall/bg1.mp4?v=1785418403", "bg2": "wall/bg2.mp4?v=1785418404", "bg3": "wall/bg3.mp4?v=1785418406", "bg4": "wall/bg4.mp4?v=1785418407", "bg5": "wall/bg5.mp4?v=1785418409", "bg6": "wall/bg6.mp4?v=1785418410", "bg7": "wall/bg7.mp4?v=1785418411", "bg8": "wall/bg8.mp4?v=1785418412"}, "sns": {"w1": "https://www.tiktok.com/@kodama_teacher/video/7665680761323851016", "w2": "https://www.tiktok.com/@kodama_teacher/video/7660103745593773319", "w3": "https://www.tiktok.com/@kodama_teacher/video/7650819343189626119", "w4": "https://www.tiktok.com/@1ziku_gakuen/video/7659732575887363335", "w5": "https://www.tiktok.com/@seishun.nikki/video/7623348941794348296", "w6": "https://www.tiktok.com/@seishun.nikki/video/7496801087526145288", "w7": "https://www.tiktok.com/@seishun.nikki/video/7636735741611035912", "w8": "https://www.tiktok.com/@seishun.nikki/video/7629664872808205576", "w9": "https://www.tiktok.com/@seishun.nikki/video/7498662785992248594"}};
+  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4?v=1785316392", "p": "assets/w1.jpg?v=1785296258"}, "w2": {"v": "assets/w2.mp4?v=1785316394", "p": "assets/w2.jpg?v=1785296258"}, "w3": {"v": "assets/w3.mp4?v=1785418364", "p": "assets/w3.jpg?v=1785418364"}, "w4": {"v": "assets/w4.mp4?v=1785420140", "p": "assets/w4.jpg?v=1785420140"}, "w5": {"v": "assets/w5.mp4?v=1785316401", "p": "assets/w5.jpg?v=1785296258"}, "w6": {"v": "assets/w6.mp4?v=1785316404", "p": "assets/w6.jpg?v=1785296258"}, "w7": {"v": "assets/w7.mp4?v=1785316406", "p": "assets/w7.jpg?v=1785296258"}, "w8": {"v": "assets/w8.mp4?v=1785316410", "p": "assets/w8.jpg?v=1785296258"}, "w9": {"v": "assets/w9.mp4?v=1785316412", "p": "assets/w9.jpg?v=1785296258"}}, "wall": {"bg1": "wall/bg1.mp4?v=1785418403", "bg2": "wall/bg2.mp4?v=1785418404", "bg3": "wall/bg3.mp4?v=1785418406", "bg4": "wall/bg4.mp4?v=1785418407", "bg5": "wall/bg5.mp4?v=1785418409", "bg6": "wall/bg6.mp4?v=1785418410", "bg7": "wall/bg7.mp4?v=1785418411", "bg8": "wall/bg8.mp4?v=1785418412"}, "wallPoster": {"bg1": "wall/bg1.jpg?v=1785421677", "bg2": "wall/bg2.jpg?v=1785421677", "bg3": "wall/bg3.jpg?v=1785421677", "bg4": "wall/bg4.jpg?v=1785421677", "bg5": "wall/bg5.jpg?v=1785421677", "bg6": "wall/bg6.jpg?v=1785421677", "bg7": "wall/bg7.jpg?v=1785421678", "bg8": "wall/bg8.jpg?v=1785421678"}, "sns": {"w1": "https://www.tiktok.com/@kodama_teacher/video/7665680761323851016", "w2": "https://www.tiktok.com/@kodama_teacher/video/7660103745593773319", "w3": "https://www.tiktok.com/@kodama_teacher/video/7650819343189626119", "w4": "https://www.tiktok.com/@1ziku_gakuen/video/7659732575887363335", "w5": "https://www.tiktok.com/@seishun.nikki/video/7623348941794348296", "w6": "https://www.tiktok.com/@seishun.nikki/video/7496801087526145288", "w7": "https://www.tiktok.com/@seishun.nikki/video/7636735741611035912", "w8": "https://www.tiktok.com/@seishun.nikki/video/7629664872808205576", "w9": "https://www.tiktok.com/@seishun.nikki/video/7498662785992248594"}};
 
   document.documentElement.classList.add("js");
 
@@ -686,13 +674,26 @@
     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
 
   /* ---- 背景の動画ウォール（1カラム1要素） ---- */
-  document.querySelectorAll("[data-wall]").forEach((v) => {
-    v.src = mediaUrl(MEDIA.wall[v.dataset.wall]);
+  // iOSは同時に再生できる動画の本数に制限があるので、狭い画面では先頭3本だけ動かす。
+  // 動かない分は静止画のまま見せる（poster）。
+  const wallLimit = window.matchMedia("(pointer: fine)").matches || window.innerWidth > 900 ? 99 : 3;
+  document.querySelectorAll("[data-wall]").forEach((v, i) => {
+    const key = v.dataset.wall;
+    v.poster = MEDIA.wallPoster[key];
+    if (i >= wallLimit) return;
+    v.src = mediaUrl(MEDIA.wall[key]);
     const kick = () => v.play().catch(() => {});
     kick();
     v.addEventListener("canplay", kick, { once: true });
     v.addEventListener("loadeddata", kick, { once: true });
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) kick(); });
   });
+  // 一度でも画面に触れたら再生を試みる（自動再生が拒否された端末向け）
+  const retryWall = () => {
+    document.querySelectorAll("[data-wall]").forEach((v) => { if (v.src) v.play().catch(() => {}); });
+  };
+  document.addEventListener("touchstart", retryWall, { once: true, passive: true });
+  document.addEventListener("click", retryWall, { once: true });
 
   /* ---- 作品カード（円環カルーセル） ----
      9枚を3セット並べ、スクロールが止まったら中央セットへ位置を戻す。
@@ -708,7 +709,6 @@
         <img class="poster" src="${m.p}" alt="${w.title}" decoding="async">
         ${withVideo ? '<video playsinline loop muted preload="metadata"></video>' : ""}
         <span class="tag" data-kind="${w.tag}">${w.tag}</span>
-        <span class="len">${w.len}</span>
         <button class="play" type="button" aria-label="${w.title} のプレビューを再生">
           <span class="disc">${PLAY_ICON}</span>
         </button>
@@ -801,15 +801,18 @@
   let snapBack = null;
   let scrollAnim = null;
   let afterAnim = null;
+  let animating = false;
   function animateTo(left) {
     const max = grid.scrollWidth - grid.clientWidth;
     const to = Math.max(0, Math.min(max, left));
     if (scrollAnim) cancelAnimationFrame(scrollAnim);
     clearTimeout(snapBack);
+    animating = true;
     grid.style.scrollSnapType = "none";
     grid.style.scrollBehavior = "auto";
 
     const settle = () => {
+      animating = false;
       grid.style.scrollSnapType = "";
       grid.style.scrollBehavior = "";
       if (afterAnim) afterAnim();
@@ -867,9 +870,11 @@
     };
 
     let raf = 0;
+    let curIdx = N;
     const update = () => {
       raf = 0;
       const idx = centerIndex();
+      if (!animating) curIdx = idx;
       allCards.forEach((card, i) => {
         const on = i === idx;
         card.classList.toggle("active", on);
@@ -883,7 +888,15 @@
       const i = centerIndex();
       if (i < N || i >= N * 2) {
         const target = N + ((i % N) + N) % N;
+        const prevBehavior = grid.style.scrollBehavior;
+        grid.style.scrollBehavior = "auto";
+        grid.style.scrollSnapType = "none";
         grid.scrollLeft += allCards[target].offsetLeft - allCards[i].offsetLeft;
+        curIdx = target;
+        setTimeout(() => {
+          grid.style.scrollSnapType = "";
+          grid.style.scrollBehavior = prevBehavior;
+        }, 30);
         update();
       }
     };
@@ -893,15 +906,15 @@
     let idle;
     grid.addEventListener("scroll", () => {
       schedule();
+      if (animating) return;      // 矢印で動かしている最中は巻き戻さない
       clearTimeout(idle);
       idle = setTimeout(normalize, 420);
     }, { passive: true });
 
+    // 連打に耐えるよう、アニメ中の中途半端な位置ではなく「今どれを見ているか」で進める
     const go = (dir) => {
-      const i = centerIndex();
-      const target = allCards[i + dir];
-      if (!target) return;
-      centerOn(target);
+      curIdx = Math.max(0, Math.min(allCards.length - 1, curIdx + dir));
+      centerOn(allCards[curIdx]);
     };
     if (prev) prev.addEventListener("click", () => go(-1));
     if (next) next.addEventListener("click", () => go(1));
