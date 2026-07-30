@@ -216,6 +216,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    filter: saturate(1.12) contrast(1.06);
   }
   .hero::after {
     content: "";
@@ -745,14 +746,23 @@
     .hero-wall {
       grid-template-columns: repeat(6, 1fr);
       gap: 8px;
-      transform: rotate(-8deg) scale(1.62);
-      inset: -14% -26%;
-      opacity: 0.82;
+      transform: rotate(-4deg) scale(1.2);
+      inset: -26% -16%;
+      opacity: 0.9;
     }
     .hero-wall .col:nth-child(n + 7) { display: none; }
     .hero-wall .col { border-width: 4px; border-radius: 20px; }
 
     .hero { padding-block: clamp(64px, 17vw, 96px) clamp(28px, 7vw, 40px); }
+    .hero::after {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(226, 244, 255, 0.56) 50%,
+        rgba(242, 251, 255, 0.92) 84%,
+        var(--ground) 100%
+      );
+    }
     .hero h1 { font-size: clamp(1.86rem, 8.4vw, 2.4rem); }
     .hero .lead { font-size: 0.98rem; }
     .hero .sub { font-size: 0.86rem; }
@@ -885,7 +895,6 @@
   <section class="reveal">
     <div class="sec-head">
       <h2>ほかの編集者と違うところ</h2>
-      <p class="note">同じことをやっている高校生を、自分はまだ見たことがありません</p>
     </div>
     <div class="edge stagger">
       <article>
@@ -1201,22 +1210,32 @@
     };
     const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
 
-    // スクロールが止まったら中央セットの同じ位置へ瞬間的に戻す（見た目は変わらない）
+    // 1セット分の幅。スクロール位置が中央セットを外れたら、その場で1セットぶん足し引きして
+    // 常に真ん中に居させる。こうしないとスワイプし続けたときに端へ着いてしまう。
+    const setWidth = () => allCards[N].offsetLeft - allCards[0].offsetLeft;
+
+    let wrapping = false;
     const normalize = () => {
-      const i = centerIndex();
-      if (i < N || i >= N * 2) {
-        const target = N + ((i % N) + N) % N;
-        const prevBehavior = grid.style.scrollBehavior;
-        grid.style.scrollBehavior = "auto";
-        grid.style.scrollSnapType = "none";
-        grid.scrollLeft += allCards[target].offsetLeft - allCards[i].offsetLeft;
-        curIdx = target;
-        setTimeout(() => {
-          grid.style.scrollSnapType = "";
-          grid.style.scrollBehavior = prevBehavior;
-        }, 30);
-        update();
-      }
+      if (wrapping || animating) return;
+      const w = setWidth();
+      if (w <= 0) return;
+      const x = grid.scrollLeft;
+      let delta = 0;
+      if (x < w * 0.5) delta = w;
+      else if (x > w * 1.5) delta = -w;
+      if (!delta) return;
+
+      // rAF を待つと（環境によっては呼ばれず）フラグが立ったままになるので同期で処理する
+      wrapping = true;
+      const prevBehavior = grid.style.scrollBehavior;
+      const prevSnap = grid.style.scrollSnapType;
+      grid.style.scrollBehavior = "auto";
+      grid.style.scrollSnapType = "none";
+      grid.scrollLeft = x + delta;
+      grid.style.scrollSnapType = prevSnap;
+      grid.style.scrollBehavior = prevBehavior;
+      wrapping = false;
+      update();
     };
 
     afterAnim = () => { update(); normalize(); };
@@ -1229,7 +1248,7 @@
     grid.addEventListener("scroll", () => {
       schedule();
       if (animating) return;      // 矢印で動かしている最中は巻き戻さない
-      queueNormalize(380);
+      normalize();                // 端に着く前に、その場で巻き戻す
     }, { passive: true });
     // スワイプは指を離してから慣性で流れるので、そのぶんを見てから判定する
     grid.addEventListener("touchend", () => queueNormalize(520), { passive: true });
