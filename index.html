@@ -510,6 +510,18 @@
   }
   .offer-card:nth-child(2) li::before { background: var(--tier-g); }
 
+  .offer-note {
+    margin-top: clamp(16px, 2vw, 22px);
+    padding: 14px 18px;
+    border: 2px dashed var(--ink);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    line-height: 1.8;
+  }
+  .offer-note b { color: var(--ink); font-weight: 800; }
+
   /* ---------- プロフィール ---------- */
   .profile dl {
     display: grid;
@@ -569,7 +581,40 @@
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
-  .edge p { color: var(--ink-2); font-size: 0.88rem; }
+  .edge ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .edge li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 0.86rem;
+    line-height: 1.75;
+    font-weight: 600;
+  }
+  .edge li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--tier-b);
+    border: 1.5px solid var(--ink);
+  }
+  .edge article:nth-child(1) li::before { background: var(--tier-s); }
+  .edge article:nth-child(3) li::before { background: var(--tier-g); }
+  .edge p {
+    color: var(--ink-2);
+    font-size: 0.85rem;
+    line-height: 1.85;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    margin-top: 4px;
+  }
   .edge p strong { color: var(--ink); font-weight: 800; }
 
   /* ---------- 連絡先 ---------- */
@@ -669,10 +714,10 @@
     <span class="name">梶原充稀／岡山</span>
     <h1 class="telop">
       <span class="line">高校生が編集する、</span>
-      <span class="line"><span class="hl">中高生に届く</span>縦動画。</span>
+      <span class="line"><span class="hl">Z世代に届く</span>縦動画。</span>
     </h1>
     <p class="lead">TikTok・Instagram Reels の縦動画を、素材から公開できる状態まで仕上げます。</p>
-    <p class="sub">学校ネタ・ティア表・ランキング・街頭インタビュー。中高生に何が刺さるかを、当事者として判断しながらつくっています。</p>
+    <p class="sub">学校ネタ・ティア表・ランキング・街頭インタビュー。同世代に何が刺さるかを、当事者として判断しながらつくっています。</p>
   </div>
 </header>
 
@@ -680,6 +725,7 @@
   <section class="reveal">
     <div class="figures stagger">
       <div><b>約100<small>本</small></b><span>これまでの納品本数</span></div>
+      <div><b>約500<small>万回</small></b><span>1本あたりの最高再生数</span></div>
       <div><b>1年4<small>ヶ月</small></b><span>2025年4月から継続中</span></div>
       <div><b>5<small>つの型</small></b><span>企画フォーマットを設計</span></div>
       <div><b>縦<small>専門</small></b><span>1080×1920 のみ</span></div>
@@ -705,7 +751,7 @@
   <section class="reveal tint">
     <div class="sec-head">
       <h2>できること</h2>
-      <p class="note">企画を一緒に考えるところから、投稿できる状態まで</p>
+      <p class="note">企画だけ・編集だけ・その両方、どの形でも受けられます</p>
     </div>
 
     <div class="offer stagger">
@@ -734,6 +780,7 @@
         </ul>
       </article>
     </div>
+    <p class="offer-note"><b>01だけ・02だけのご依頼も、まとめてのご依頼も受けています。</b>企画から入った場合は、その構成に沿って編集まで一気に通します。</p>
   </section>
 
   <section class="reveal">
@@ -744,15 +791,28 @@
     <div class="edge stagger">
       <article>
         <h3><mark>高校生の感覚</mark>と、仕事としての判断を両方持っている</h3>
-        <p>テロップの一言が刺さるのか寒いのかは、中高生本人でないと選びきれません。同時に、1年4ヶ月・約100本を毎週の納期で納品してきたので、進行や修正のやり取りは仕事として回せます。<strong>感覚だけの高校生でも、感覚のない業者でもない</strong>——この両方を持っている同世代を、自分はまだ知りません。</p>
+        <ul>
+          <li>テロップの一言が刺さるか寒いかを、本人の感覚で選べる</li>
+          <li>1年4ヶ月・約100本を毎週の納期で納品してきた</li>
+          <li>進行・修正のやり取りを仕事として回せる</li>
+        </ul>
+        <p><strong>感覚だけの高校生でも、感覚のない業者でもない</strong>——この両方を持っている同世代を、自分はまだ知りません。</p>
       </article>
       <article>
-        <h3><mark>学校のアカウント</mark>を実際に動かしてきた</h3>
-        <p>高校の公式アカウントに出す動画を継続してつくっています。学校という場所で何を出せて何は出せないか、生徒や先生に出てもらうときに何を気をつけるかを、現場で分かったうえで組み立てられます。</p>
+        <h3><mark>学校のアカウント</mark>を動かした経験がある</h3>
+        <ul>
+          <li>高校の公式アカウントに出す動画を担当していた</li>
+          <li>学校という場所で何を出せて何は出せないかが分かる</li>
+          <li>生徒や先生に出てもらうときの気をつけどころを知っている</li>
+        </ul>
       </article>
       <article>
         <h3><mark>企画から編集まで</mark>、一人で通せる</h3>
-        <p>「どんな動画を出すか」を決めるところから入れます。企画を考えた本人がそのまま編集するので、狙った引きどころやテンポが途中で薄まりません。編集だけのご依頼も受けています。</p>
+        <ul>
+          <li>「どんな動画を出すか」を決めるところから入れる</li>
+          <li>企画を考えた本人が編集するので、狙いが途中で薄まらない</li>
+          <li>企画だけ・編集だけの依頼にも対応できる</li>
+        </ul>
       </article>
     </div>
   </section>
