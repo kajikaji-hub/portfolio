@@ -642,7 +642,7 @@
 </main>
 
 <script>
-  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4", "p": "assets/w1.jpg"}, "w2": {"v": "assets/w2.mp4", "p": "assets/w2.jpg"}, "w3": {"v": "assets/w3.mp4", "p": "assets/w3.jpg"}, "w4": {"v": "assets/w4.mp4", "p": "assets/w4.jpg"}, "w5": {"v": "assets/w5.mp4", "p": "assets/w5.jpg"}, "w6": {"v": "assets/w6.mp4", "p": "assets/w6.jpg"}, "w7": {"v": "assets/w7.mp4", "p": "assets/w7.jpg"}, "w8": {"v": "assets/w8.mp4", "p": "assets/w8.jpg"}, "w9": {"v": "assets/w9.mp4", "p": "assets/w9.jpg"}}, "wall": {"bg1": "wall/bg1.mp4", "bg2": "wall/bg2.mp4", "bg3": "wall/bg3.mp4", "bg4": "wall/bg4.mp4", "bg5": "wall/bg5.mp4", "bg6": "wall/bg6.mp4", "bg7": "wall/bg7.mp4", "bg8": "wall/bg8.mp4"}, "sns": {}};
+  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4?v=1785316392", "p": "assets/w1.jpg?v=1785296258"}, "w2": {"v": "assets/w2.mp4?v=1785316394", "p": "assets/w2.jpg?v=1785296258"}, "w3": {"v": "assets/w3.mp4?v=1785418364", "p": "assets/w3.jpg?v=1785418364"}, "w4": {"v": "assets/w4.mp4?v=1785420140", "p": "assets/w4.jpg?v=1785420140"}, "w5": {"v": "assets/w5.mp4?v=1785316401", "p": "assets/w5.jpg?v=1785296258"}, "w6": {"v": "assets/w6.mp4?v=1785316404", "p": "assets/w6.jpg?v=1785296258"}, "w7": {"v": "assets/w7.mp4?v=1785316406", "p": "assets/w7.jpg?v=1785296258"}, "w8": {"v": "assets/w8.mp4?v=1785316410", "p": "assets/w8.jpg?v=1785296258"}, "w9": {"v": "assets/w9.mp4?v=1785316412", "p": "assets/w9.jpg?v=1785296258"}}, "wall": {"bg1": "wall/bg1.mp4?v=1785418403", "bg2": "wall/bg2.mp4?v=1785418404", "bg3": "wall/bg3.mp4?v=1785418406", "bg4": "wall/bg4.mp4?v=1785418407", "bg5": "wall/bg5.mp4?v=1785418409", "bg6": "wall/bg6.mp4?v=1785418410", "bg7": "wall/bg7.mp4?v=1785418411", "bg8": "wall/bg8.mp4?v=1785418412"}, "sns": {"w1": "https://www.tiktok.com/@kodama_teacher/video/7665680761323851016", "w2": "https://www.tiktok.com/@kodama_teacher/video/7660103745593773319", "w3": "https://www.tiktok.com/@kodama_teacher/video/7650819343189626119", "w4": "https://www.tiktok.com/@1ziku_gakuen/video/7659732575887363335", "w5": "https://www.tiktok.com/@seishun.nikki/video/7623348941794348296", "w6": "https://www.tiktok.com/@seishun.nikki/video/7496801087526145288", "w7": "https://www.tiktok.com/@seishun.nikki/video/7636735741611035912", "w8": "https://www.tiktok.com/@seishun.nikki/video/7629664872808205576", "w9": "https://www.tiktok.com/@seishun.nikki/video/7498662785992248594"}};
 
   document.documentElement.classList.add("js");
 
@@ -673,8 +673,8 @@
   const WORKS = [
     { id: "w1", title: "「生徒の言い訳」ティア表", tag: "ティア表", len: "1:33" },
     { id: "w2", title: "職員室によくいる先生の種類ランキング", tag: "ランキング", len: "1:15" },
-    { id: "w3", title: "先生ってなんでそんなに仕事多いんですか？", tag: "あるある系", len: "1:49" },
-    { id: "w4", title: "高校生に聞く 街頭インタビュー", tag: "街頭インタビュー", len: "1:27" },
+    { id: "w3", title: "欠席連絡は嘘ついたらバレますか？", tag: "あるある系", len: "1:48" },
+    { id: "w4", title: "高校生に聞く 街頭インタビュー", tag: "街頭インタビュー", len: "1:37" },
     { id: "w5", title: "人狼ゲーム", tag: "ゲーム企画", len: "1:26" },
     { id: "w6", title: "短縮鉄道の夜", tag: "ゲーム企画", len: "1:46" },
     { id: "w7", title: "誰が叩いたでしょう", tag: "ゲーム企画", len: "0:58" },
@@ -694,19 +694,19 @@
     v.addEventListener("loadeddata", kick, { once: true });
   });
 
-  /* ---- 作品カード ---- */
+  /* ---- 作品カード（円環カルーセル） ----
+     9枚を3セット並べ、スクロールが止まったら中央セットへ位置を戻す。
+     見た目は途切れず、左に行き続ければ右端の作品が左から出てくる。
+     クローンは静止画だけ持たせて、動画は中央セットの9枚にしか置かない。 */
   const grid = document.getElementById("works");
+  const N = WORKS.length;
 
-  WORKS.forEach((w) => {
-   try {
+  const cardHtml = (w, withVideo) => {
     const m = MEDIA.works[w.id];
-    if (!m) return;
-    const art = document.createElement("article");
-    art.className = "work";
-    art.innerHTML = `
+    return `
       <div class="frame">
         <img class="poster" src="${m.p}" alt="${w.title}" decoding="async">
-        <video playsinline loop muted preload="metadata"></video>
+        ${withVideo ? '<video playsinline loop muted preload="metadata"></video>' : ""}
         <span class="tag" data-kind="${w.tag}">${w.tag}</span>
         <span class="len">${w.len}</span>
         <button class="play" type="button" aria-label="${w.title} のプレビューを再生">
@@ -716,14 +716,32 @@
       <h3>${w.title}</h3>
       ${SNS[w.id] ? `<a class="sns" href="${SNS[w.id]}" target="_blank" rel="noopener noreferrer">投稿を見る（フル尺）↗</a>` : ""}
     `;
-    grid.appendChild(art);
+  };
 
+  const makeCard = (w, isClone) => {
+    const art = document.createElement("article");
+    art.className = "work";
+    if (isClone) art.dataset.clone = "1";
+    art.innerHTML = cardHtml(w, !isClone);
+    return art;
+  };
+
+  for (const set of [true, false, true]) {
+    WORKS.forEach((w) => grid.appendChild(makeCard(w, set)));
+  }
+
+  const allCards = [...grid.querySelectorAll(".work")];
+  const realCards = allCards.slice(N, N * 2);
+
+  // 中央セットの9枚にだけ再生機能を付ける
+  realCards.forEach((art, i) => {
+    const w = WORKS[i];
+    const m = MEDIA.works[w.id];
     const frame = art.querySelector(".frame");
     const video = art.querySelector("video");
     const btn = art.querySelector(".play");
+    if (!video) return;
 
-    // ★触られるまで何もしない。ページを開いた時点で9本ぶんをBlob化すると
-    //   数MBのデコードが一度に走ってiOSがメモリ切れで落ちる。
     const ensureSrc = () => {
       if (!video.src) video.src = mediaUrl(m.v);
     };
@@ -735,44 +753,30 @@
       frame.classList.remove("playing", "ready");
       btn.setAttribute("aria-label", `${w.title} のプレビューを再生`);
     };
+    art._stop = stop;
 
     btn.addEventListener("click", () => {
-      // 中央にいないカードを押したら、まず中央へ寄せるだけ
       if (!art.classList.contains("active")) {
-        art.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", inline: "center", block: "nearest" });
+        centerOn(art);
         return;
       }
-      if (frame.classList.contains("playing")) {
-        stop();
-        return;
-      }
-      document.querySelectorAll(".frame.playing").forEach((f) => {
-        const other = f.querySelector("video");
-        other.pause();
-        other.currentTime = 0;
-        other.muted = true;
-        f.classList.remove("playing", "ready");
-      });
-      // iOSは「音あり」で再生を始めようとすると弾く。必ずミュートで開始して、
-      // 再生が始まってから音を出す（この順序でないと一切再生されない）。
+      if (frame.classList.contains("playing")) { stop(); return; }
+      allCards.forEach((c) => { if (c !== art && c._stop) c._stop(); });
       ensureSrc();
       video.muted = true;
       video.currentTime = 0;
       frame.classList.add("playing", "ready");
       btn.setAttribute("aria-label", `${w.title} のプレビューを停止`);
       const p = video.play();
-      if (p) {
-        p.then(() => { video.muted = false; }).catch(() => { stop(); });
-      } else {
-        video.muted = false;
-      }
+      if (p) p.then(() => { video.muted = false; }).catch(() => stop());
+      else video.muted = false;
     });
 
     video.addEventListener("ended", stop);
 
     if (window.matchMedia("(pointer: fine)").matches) {
       frame.addEventListener("mouseenter", () => {
-        if (frame.classList.contains("playing")) return;
+        if (frame.classList.contains("playing") || !art.classList.contains("active")) return;
         ensureSrc();
         video.muted = true;
         video.play().then(() => frame.classList.add("ready")).catch(() => {});
@@ -784,78 +788,158 @@
         frame.classList.remove("ready");
       });
     }
-   } catch (e) { /* 1枚失敗しても残りは出す */ }
   });
 
-  /* ---- カルーセル：中央の1本を大きく、左右の送りボタン ---- */
+  // クローンを押したら、その作品の本体を中央へ持ってくる
+  allCards.forEach((art, i) => {
+    if (!art.dataset.clone) return;
+    art.querySelector(".play").addEventListener("click", () => centerOn(allCards[N + (i % N)]));
+  });
+
+  // scroll-snap も scroll-behavior もそのままだと scrollLeft への代入が効かない。
+  // 両方いったん切って、自前で滑らかに動かしてから元に戻す。
+  let snapBack = null;
+  let scrollAnim = null;
+  let afterAnim = null;
+  function animateTo(left) {
+    const max = grid.scrollWidth - grid.clientWidth;
+    const to = Math.max(0, Math.min(max, left));
+    if (scrollAnim) cancelAnimationFrame(scrollAnim);
+    clearTimeout(snapBack);
+    grid.style.scrollSnapType = "none";
+    grid.style.scrollBehavior = "auto";
+
+    const settle = () => {
+      grid.style.scrollSnapType = "";
+      grid.style.scrollBehavior = "";
+      if (afterAnim) afterAnim();
+    };
+
+    const from = grid.scrollLeft;
+    const diff = to - from;
+    if (REDUCED || Math.abs(diff) < 1) {
+      grid.scrollLeft = to;
+      snapBack = setTimeout(settle, 30);
+      return;
+    }
+
+    // 万一アニメが進まない環境でも必ず着地させる
+    const guard = setTimeout(() => {
+      if (scrollAnim) cancelAnimationFrame(scrollAnim);
+      scrollAnim = null;
+      grid.scrollLeft = to;
+      settle();
+    }, 520);
+
+    const t0 = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - t0) / 360);
+      grid.scrollLeft = from + diff * (1 - Math.pow(1 - p, 3));
+      if (p < 1) { scrollAnim = requestAnimationFrame(tick); return; }
+      scrollAnim = null;
+      clearTimeout(guard);
+      grid.scrollLeft = to;
+      settle();
+    };
+    scrollAnim = requestAnimationFrame(tick);
+  }
+
+  function centerOn(card) {
+    animateTo(card.offsetLeft - (grid.clientWidth - card.offsetWidth) / 2);
+  }
+
+  /* ---- 中央判定・位置の巻き戻し・送りボタン ---- */
   (() => {
-    const scroller = grid;
     const prev = document.querySelector(".nav.prev");
     const next = document.querySelector(".nav.next");
-    const cards = [...scroller.querySelectorAll(".work")];
-    if (!cards.length) return;
+    if (!allCards.length) return;
 
-    const step = () => {
-      if (cards.length < 2) return scroller.clientWidth;
-      return cards[1].offsetLeft - cards[0].offsetLeft;
+    const centerIndex = () => {
+      const box = grid.getBoundingClientRect();
+      const c = box.left + box.width / 2;
+      let idx = 0, best = Infinity;
+      allCards.forEach((card, i) => {
+        const r = card.getBoundingClientRect();
+        const d = Math.abs(r.left + r.width / 2 - c);
+        if (d < best) { best = d; idx = i; }
+      });
+      return idx;
     };
 
     let raf = 0;
     const update = () => {
       raf = 0;
-      const box = scroller.getBoundingClientRect();
-      const center = box.left + box.width / 2;
-      let best = null;
-      let bestDist = Infinity;
-      cards.forEach((c) => {
-        const r = c.getBoundingClientRect();
-        const d = Math.abs(r.left + r.width / 2 - center);
-        if (d < bestDist) { bestDist = d; best = c; }
-      });
-      cards.forEach((c) => {
-        const on = c === best;
-        c.classList.toggle("active", on);
-        // 中央から外れた作品は再生を止める（音が重ならないように）
-        if (!on) {
-          const v = c.querySelector("video");
-          const f = c.querySelector(".frame");
-          if (v && !v.paused) { v.pause(); v.currentTime = 0; v.muted = true; }
-          if (f) f.classList.remove("playing", "ready");
-        }
+      const idx = centerIndex();
+      allCards.forEach((card, i) => {
+        const on = i === idx;
+        card.classList.toggle("active", on);
+        if (!on && card._stop) card._stop();
       });
     };
-
     const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
-    scroller.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
 
-    // 端まで行ったら反対の端へ回る（無限ループ）
+    // スクロールが止まったら中央セットの同じ位置へ瞬間的に戻す（見た目は変わらない）
+    const normalize = () => {
+      const i = centerIndex();
+      if (i < N || i >= N * 2) {
+        const target = N + ((i % N) + N) % N;
+        grid.scrollLeft += allCards[target].offsetLeft - allCards[i].offsetLeft;
+        update();
+      }
+    };
+
+    afterAnim = () => { update(); normalize(); };
+
+    let idle;
+    grid.addEventListener("scroll", () => {
+      schedule();
+      clearTimeout(idle);
+      idle = setTimeout(normalize, 420);
+    }, { passive: true });
+
     const go = (dir) => {
-      const cur = cards.findIndex((c) => c.classList.contains("active"));
-      const from = cur < 0 ? 0 : cur;
-      let to = from + dir;
-      let wrapped = false;
-      if (to < 0) { to = cards.length - 1; wrapped = true; }
-      if (to >= cards.length) { to = 0; wrapped = true; }
-      cards[to].scrollIntoView({
-        behavior: REDUCED || wrapped ? "auto" : "smooth",
-        inline: "center",
-        block: "nearest",
-      });
-      requestAnimationFrame(update);
+      const i = centerIndex();
+      const target = allCards[i + dir];
+      if (!target) return;
+      centerOn(target);
     };
     if (prev) prev.addEventListener("click", () => go(-1));
     if (next) next.addEventListener("click", () => go(1));
-
-    // 矢印キーでも送れるように
-    scroller.addEventListener("keydown", (e) => {
+    grid.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
       if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
     });
-    scroller.tabIndex = 0;
+    grid.tabIndex = 0;
 
-    update();
-    setTimeout(update, 300);
+    // 初期位置合わせ。ただし一度でも操作されたら二度と割り込まない
+    let userMoved = false;
+    const markMoved = () => { userMoved = true; };
+    grid.addEventListener("pointerdown", markMoved, { passive: true });
+    grid.addEventListener("touchstart", markMoved, { passive: true });
+    grid.addEventListener("wheel", markMoved, { passive: true });
+    grid.addEventListener("keydown", markMoved);
+    if (prev) prev.addEventListener("click", markMoved);
+    if (next) next.addEventListener("click", markMoved);
+
+    // 初期位置は瞬間で合わせる。スナップもスムーズ動作も一時的に切らないと引き戻される
+    const home = () => {
+      if (userMoved) return;
+      const first = allCards[N];
+      const left = first.offsetLeft - (grid.clientWidth - first.offsetWidth) / 2;
+      grid.style.scrollBehavior = "auto";
+      grid.style.scrollSnapType = "none";
+      grid.scrollLeft = left;
+      setTimeout(() => {
+        grid.style.scrollBehavior = "";
+        grid.style.scrollSnapType = "";
+        update();
+      }, 60);
+    };
+    home();
+    window.addEventListener("load", home);
+    setTimeout(home, 200);
+    setTimeout(home, 600);
+    window.addEventListener("resize", schedule);
   })();
 
   /* ---- スクロールで各セクションを出す ---- */
