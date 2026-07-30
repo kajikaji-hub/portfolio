@@ -1,3 +1,18 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="岡山の高校3年生が、TikTok・Instagram Reels の縦動画を企画から編集まで。約100本・最高500万回再生。">
+<meta name="theme-color" content="#f2fbff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="梶原充稀 — 縦動画編集ポートフォリオ">
+<meta property="og:description" content="岡山の高校3年生が、TikTok・Instagram Reels の縦動画を企画から編集まで。約100本・最高500万回再生。">
+<meta property="og:url" content="https://kajikaji-hub.github.io/portfolio/">
+<meta property="og:image" content="https://kajikaji-hub.github.io/portfolio/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
 <title>梶原充稀 — 縦動画編集ポートフォリオ</title>
 
 <style>
@@ -274,6 +289,10 @@
     flex-direction: column;
     gap: 2px;
   }
+  @media (max-width: 620px) {
+    .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .figures div:last-child { grid-column: span 2; }
+  }
   .figures b {
     font-size: clamp(1.6rem, 4.4vw, 2.2rem);
     font-weight: 800;
@@ -296,7 +315,7 @@
     margin-inline: calc(var(--pad) * -1);
   }
   .works {
-    --card: min(70vw, 320px);
+    --card: min(80vw, 330px);
     display: flex;
     gap: clamp(14px, 2vw, 24px);
     overflow-x: auto;
@@ -1245,3 +1264,6 @@
     }, 2500);
   }
 </script>
+
+</body>
+</html>
