@@ -743,13 +743,13 @@
   @media (max-width: 620px) {
     /* 背景：台数を減らして1台を大きく見せる（10台のままだと潰れて何も分からない） */
     .hero-wall {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      transform: rotate(-8deg) scale(1.5);
-      inset: -14% -22%;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      transform: rotate(-8deg) scale(1.62);
+      inset: -14% -26%;
       opacity: 0.82;
     }
-    .hero-wall .col:nth-child(n + 5) { display: none; }
+    .hero-wall .col:nth-child(n + 7) { display: none; }
     .hero-wall .col { border-width: 4px; border-radius: 20px; }
 
     .hero { padding-block: clamp(64px, 17vw, 96px) clamp(28px, 7vw, 40px); }
@@ -993,7 +993,7 @@
   /* ---- 背景の動画ウォール（1カラム1要素） ---- */
   // iOSは同時に再生できる動画の本数に制限があるので、狭い画面では先頭3本だけ動かす。
   // 動かない分は静止画のまま見せる（poster）。
-  const wallLimit = window.matchMedia("(pointer: fine)").matches || window.innerWidth > 900 ? 99 : 4;
+  const wallLimit = window.matchMedia("(pointer: fine)").matches || window.innerWidth > 900 ? 99 : 6;
   document.querySelectorAll("[data-wall]").forEach((v, i) => {
     const key = v.dataset.wall;
     v.poster = MEDIA.wallPoster[key];
@@ -1222,12 +1222,21 @@
     afterAnim = () => { update(); normalize(); };
 
     let idle;
+    const queueNormalize = (delay) => {
+      clearTimeout(idle);
+      idle = setTimeout(normalize, delay);
+    };
     grid.addEventListener("scroll", () => {
       schedule();
       if (animating) return;      // 矢印で動かしている最中は巻き戻さない
-      clearTimeout(idle);
-      idle = setTimeout(normalize, 420);
+      queueNormalize(380);
     }, { passive: true });
+    // スワイプは指を離してから慣性で流れるので、そのぶんを見てから判定する
+    grid.addEventListener("touchend", () => queueNormalize(520), { passive: true });
+    grid.addEventListener("touchcancel", () => queueNormalize(520), { passive: true });
+    if ("onscrollend" in window) {
+      grid.addEventListener("scrollend", () => { if (!animating) normalize(); });
+    }
 
     // 連打に耐えるよう、アニメ中の中途半端な位置ではなく「今どれを見ているか」で進める
     const go = (dir) => {
