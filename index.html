@@ -327,6 +327,8 @@
     filter: none;
   }
   .offer-card > p { text-wrap: pretty; word-break: auto-phrase; }
+  .offer-card > p span { display: block; }
+  .offer-card > p span + span { margin-top: 6px; }
   .work h3 { transition: opacity 0.35s ease; }
   .work:not(.active) h3 { opacity: 0.6; }
 
@@ -428,6 +430,8 @@
   .frame:hover .disc { transform: translateY(-2px) scale(1.06); }
   .frame.playing .disc { opacity: 0; transform: scale(0.8); }
   .offer-card > p { text-wrap: pretty; word-break: auto-phrase; }
+  .offer-card > p span { display: block; }
+  .offer-card > p span + span { margin-top: 6px; }
   .work h3 {
     font-size: 1rem;
     font-weight: 800;
@@ -787,7 +791,10 @@
       <article class="offer-card">
         <span class="offer-no">1</span>
         <h3>企画提案</h3>
-        <p>オンラインで話を伺って、その方に合う企画を設計します。いまのアカウントと近い動画を分析して、どんな型なら伸びそうか、どの順番で見せると最後まで見てもらえるかを組み立てます。</p>
+        <p>
+          <span>オンラインで話を伺って、その方に合う企画を設計します。</span>
+          <span>いまのアカウントと近い動画を分析して、どんな型なら伸びそうか、どの順番で見せると最後まで見てもらえるかを組み立てます。</span>
+        </p>
         <ul>
           <li>ヒアリング（発注後のお打ち合わせ）</li>
           <li>既存の投稿と参考動画の分析</li>
@@ -799,7 +806,10 @@
       <article class="offer-card">
         <span class="offer-no">2</span>
         <h3>編集</h3>
-        <p>撮影素材をお預かりして、そのまま投稿できる状態まで仕上げます。企画から入った場合は、その構成に沿った見せ方で組みます。</p>
+        <p>
+          <span>撮影素材をお預かりして、そのまま投稿できる状態まで仕上げます。</span>
+          <span>企画から入った場合は、その構成に沿った見せ方で組みます。</span>
+        </p>
         <ul>
           <li>無音カット・尺調整</li>
           <li>テロップ全打ち（縁取り・色分け・強調）</li>
@@ -810,7 +820,7 @@
       </article>
     </div>
     <p class="offer-note">
-      <span><b>企画提案だけ・編集だけの個別対応も、両方をまとめたプランでの対応もできます。</b></span>
+      <span><b>企画提案だけ・編集だけの個別対応も、両方まとめての対応も可能です。</b></span>
       <span>撮影はお客様にお願いしています。お預かりした素材を、企画で決めた構成のまま編集します。</span>
     </p>
   </section>
