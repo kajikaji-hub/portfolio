@@ -149,14 +149,14 @@
   }
   .hero-wall {
     position: absolute;
-    inset: -6% -10%;
+    inset: -10% -14%;
     z-index: -2;
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     align-items: center;
     justify-items: center;
-    gap: clamp(16px, 2.6vw, 40px);
-    transform: rotate(-7deg) scale(1.24);
+    gap: clamp(12px, 1.9vw, 28px);
+    transform: rotate(-7deg) scale(1.18);
     opacity: 0.72;
   }
   /* 各カラムをスマホの筐体に見立てる（ベゼル＋ノッチ） */
@@ -193,6 +193,8 @@
   .hero-wall .col:nth-child(6) { transform: translateY(5%); }
   .hero-wall .col:nth-child(7) { transform: translateY(-10%); }
   .hero-wall .col:nth-child(8) { transform: translateY(8%); }
+  .hero-wall .col:nth-child(9) { transform: translateY(-7%); }
+  .hero-wall .col:nth-child(10) { transform: translateY(10%); }
   /* iOSのvideo要素数の上限に引っかからないよう1カラム1要素に抑える */
   .hero-wall video {
     width: 100%;
@@ -659,6 +661,8 @@
     <div class="col"><video data-wall="bg6" muted loop playsinline autoplay preload="auto"></video></div>
     <div class="col"><video data-wall="bg7" muted loop playsinline autoplay preload="auto"></video></div>
     <div class="col"><video data-wall="bg8" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg3" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg6" muted loop playsinline autoplay preload="auto"></video></div>
   </div>
   <div class="wrap hero-inner">
     <span class="name">梶原充稀／岡山</span>
@@ -736,16 +740,16 @@
     </div>
     <div class="edge stagger">
       <article>
-        <h3><mark>「これ高校生に刺さるか」</mark>を当事者として判断できる</h3>
-        <p>中高生向けの企画は、大人がつくると言い回しが少しずつズレます。自分は現役の高校生なので、テロップの一言が刺さるのか寒いのかを肌感覚で選べます。学校ネタの動画を毎週つくっているのも同じ理由です。</p>
+        <h3><mark>高校生の感覚</mark>と、仕事としての判断を両方持っている</h3>
+        <p>テロップの一言が刺さるのか寒いのかは、中高生本人でないと選びきれません。同時に、1年4ヶ月・約100本を毎週の納期で納品してきたので、進行や修正のやり取りは仕事として回せます。感覚だけの高校生でも、感覚のない業者でもない立ち位置です。</p>
       </article>
       <article>
-        <h3><mark>企画から一緒に</mark>考えて、そのまま編集まで通せる</h3>
+        <h3><mark>学校のアカウント</mark>を実際に動かしてきた</h3>
+        <p>高校の公式アカウントに出す動画を継続してつくっています。学校という場所で何を出せて何は出せないか、生徒や先生に出てもらうときに何を気をつけるかを、現場で分かったうえで組み立てられます。</p>
+      </article>
+      <article>
+        <h3><mark>企画から編集まで</mark>、一人で通せる</h3>
         <p>「どんな動画を出すか」を決めるところから入れます。企画を考えた本人がそのまま編集するので、狙った引きどころやテンポが途中で薄まりません。編集だけのご依頼も受けています。</p>
-      </article>
-      <article>
-        <h3>同じ型を<mark>何十本も</mark>回して、精度を上げている</h3>
-        <p>ティア表もランキングも街頭インタビューも、単発ではなく毎週の連載として積んできました。どこで引きをつくってどこで落とすか、量をこなす前提の進行に慣れています。</p>
       </article>
     </div>
   </section>
@@ -757,10 +761,11 @@
     <div class="profile">
       <dl>
         <div><dt>名前</dt><dd>梶原 充稀（かじわら みつき）</dd></div>
-        <div><dt>所属</dt><dd>高校3年生／岡山県</dd></div>
+        <div><dt>年齢</dt><dd>18歳（高校3年生）</dd></div>
+        <div><dt>拠点</dt><dd>岡山県（打ち合わせ・納品はオンライン）</dd></div>
         <div><dt>実績</dt><dd>2025年4月から縦動画の編集を担当。これまで約100本</dd></div>
         <div><dt>使用ソフト</dt><dd>Adobe Premiere Pro</dd></div>
-        <div><dt>対応</dt><dd>打ち合わせから納品までオンラインで完結／納品形式 MP4・1080×1920</dd></div>
+        <div><dt>納品形式</dt><dd>MP4・1080×1920（縦）</dd></div>
       </dl>
     </div>
   </section>
