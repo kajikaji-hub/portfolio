@@ -42,6 +42,7 @@
     background:
       radial-gradient(140% 70% at 50% -6%, #ffffff 0%, var(--sky-2) 34%, var(--ground) 72%);
     background-attachment: fixed;
+    position: relative;
     color: var(--ink);
     font-family: var(--jp);
     font-size: 16px;
@@ -49,6 +50,32 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
+  }
+
+  /* ノートの方眼を薄く敷く（学校の話をしているサイトなので） */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(18, 58, 99, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(18, 58, 99, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 88%, transparent 100%);
+  }
+
+  /* C. セクションごとに地の濃さを変えて区切りを作る */
+  .tint { position: relative; }
+  .tint::before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--gap) / -2.4) calc(50% - 50vw);
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.6);
+    border-block: 1px solid rgba(18, 58, 99, 0.08);
   }
 
   .wrap {
@@ -428,6 +455,88 @@
   .craft b { font-size: 0.94rem; font-weight: 800; }
   .craft span { color: var(--ink-2); font-size: 0.82rem; line-height: 1.75; }
 
+  /* ---------- できること（企画・編集の2枚） ---------- */
+  .offer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: clamp(16px, 2.4vw, 26px);
+  }
+  .offer-card {
+    position: relative;
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 0 5px 0 var(--ink);
+    padding: clamp(24px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .offer-no {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--tier-b);
+  }
+  .offer-card:nth-child(2) .offer-no { color: var(--tier-a); }
+  .offer-card h3 { font-size: 1.25rem; font-weight: 800; line-height: 1.4; }
+  .offer-card > p { color: var(--ink-2); font-size: 0.88rem; }
+  .offer-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .offer-card li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 0.86rem;
+    font-weight: 600;
+  }
+  .offer-card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--tier-s);
+    border: 1.5px solid var(--ink);
+  }
+  .offer-card:nth-child(2) li::before { background: var(--tier-g); }
+
+  /* ---------- プロフィール ---------- */
+  .profile dl {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    box-shadow: 0 5px 0 var(--ink);
+    overflow: hidden;
+  }
+  .profile dl > div {
+    display: grid;
+    grid-template-columns: minmax(96px, 150px) 1fr;
+    background: var(--surface);
+  }
+  .profile dt {
+    padding: 14px 16px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--ink-2);
+    background: rgba(200, 236, 255, 0.4);
+  }
+  .profile dd { padding: 14px 16px; font-size: 0.9rem; font-weight: 600; }
+  @media (max-width: 520px) {
+    .profile dl > div { grid-template-columns: 1fr; }
+    .profile dt { padding-bottom: 0; background: var(--surface); }
+    .profile dd { padding-top: 4px; }
+  }
+
   /* ---------- 強み ---------- */
   .edge {
     display: grid;
@@ -454,6 +563,9 @@
     background: linear-gradient(transparent 62%, var(--tier-s) 62%);
     color: inherit;
     padding: 0 2px;
+    /* 改行をまたいでも各行にきちんと線が引かれるように */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .edge p { color: var(--ink-2); font-size: 0.88rem; }
 
@@ -585,18 +697,37 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal tint">
     <div class="sec-head">
-      <h2>やっていること</h2>
-      <p class="note">撮影素材をお預かりして、そのまま投稿できる状態まで</p>
+      <h2>できること</h2>
+      <p class="note">企画を一緒に考えるところから、投稿できる状態まで</p>
     </div>
-    <ul class="craft stagger">
-      <li><b>無音カット・尺調整</b><span>言い淀みと間を詰めて、最後まで見られるテンポにします</span></li>
-      <li><b>テロップ全打ち</b><span>縁取り・色分け・強調。音を出さずに見る人を前提に組みます</span></li>
-      <li><b>ティア表・ランキングUI</b><span>結果が埋まっていく画面を一から設計します</span></li>
-      <li><b>写真・イラストの差し込み</b><span>言葉だけで伝わらない部分を図で補います</span></li>
-      <li><b>効果音・BGM</b><span>笑いどころと転換点を音で立てます</span></li>
-    </ul>
+
+    <div class="offer stagger">
+      <article class="offer-card">
+        <span class="offer-no">01</span>
+        <h3>企画提案</h3>
+        <p>オンラインで話を伺って、その方に合う企画を設計します。いまのアカウントと近い動画を分析して、どんな型なら伸びそうか、どの順番で見せると最後まで見てもらえるかを組み立てます。</p>
+        <ul>
+          <li>ヒアリング（オンライン30分〜）</li>
+          <li>既存の投稿と参考動画の分析</li>
+          <li>企画の型と構成の提案</li>
+          <li>設計書としてお渡し</li>
+        </ul>
+      </article>
+      <article class="offer-card">
+        <span class="offer-no">02</span>
+        <h3>編集</h3>
+        <p>撮影素材をお預かりして、そのまま投稿できる状態まで仕上げます。企画から入った場合は、その構成に沿った見せ方で組みます。</p>
+        <ul>
+          <li>無音カット・尺調整</li>
+          <li>テロップ全打ち（縁取り・色分け・強調）</li>
+          <li>ティア表・ランキングの画面設計</li>
+          <li>写真・イラストの差し込み</li>
+          <li>効果音・BGM</li>
+        </ul>
+      </article>
+    </div>
   </section>
 
   <section class="reveal">
@@ -609,13 +740,28 @@
         <p>中高生向けの企画は、大人がつくると言い回しが少しずつズレます。自分は現役の高校生なので、テロップの一言が刺さるのか寒いのかを肌感覚で選べます。学校ネタの動画を毎週つくっているのも同じ理由です。</p>
       </article>
       <article>
-        <h3>下ごしらえを<mark>自動化</mark>しているぶん、演出に時間を回せる</h3>
-        <p>文字起こし・無音カット・テロップの整形は自分用の仕組みで自動化しています。作業時間が短い代わりに手を抜くのではなく、浮いた時間を演出とテンポの詰めに使っています。</p>
+        <h3><mark>企画から一緒に</mark>考えて、そのまま編集まで通せる</h3>
+        <p>「どんな動画を出すか」を決めるところから入れます。企画を考えた本人がそのまま編集するので、狙った引きどころやテンポが途中で薄まりません。編集だけのご依頼も受けています。</p>
       </article>
       <article>
-        <h3>同じ型を<mark>何十本も回して</mark>、精度を上げている</h3>
+        <h3>同じ型を<mark>何十本も</mark>回して、精度を上げている</h3>
         <p>ティア表もランキングも街頭インタビューも、単発ではなく毎週の連載として積んできました。どこで引きをつくってどこで落とすか、量をこなす前提の進行に慣れています。</p>
       </article>
+    </div>
+  </section>
+
+  <section class="reveal tint">
+    <div class="sec-head">
+      <h2>プロフィール</h2>
+    </div>
+    <div class="profile">
+      <dl>
+        <div><dt>名前</dt><dd>梶原 充稀（かじわら みつき）</dd></div>
+        <div><dt>所属</dt><dd>高校3年生／岡山県</dd></div>
+        <div><dt>実績</dt><dd>2025年4月から縦動画の編集を担当。これまで約100本</dd></div>
+        <div><dt>使用ソフト</dt><dd>Adobe Premiere Pro</dd></div>
+        <div><dt>対応</dt><dd>打ち合わせから納品までオンラインで完結／納品形式 MP4・1080×1920</dd></div>
+      </dl>
     </div>
   </section>
 
@@ -790,10 +936,11 @@
     }
   });
 
-  // クローンを押したら、その作品の本体を中央へ持ってくる
-  allCards.forEach((art, i) => {
+  // クローンを押したときも「押されたカードそのもの」を中央へ寄せる。
+  // 本体セットへ飛ばすと画面の端から端まで走ってしまうので、必ず隣へ動く。
+  allCards.forEach((art) => {
     if (!art.dataset.clone) return;
-    art.querySelector(".play").addEventListener("click", () => centerOn(allCards[N + (i % N)]));
+    art.querySelector(".play").addEventListener("click", () => centerOn(art));
   });
 
   // scroll-snap も scroll-behavior もそのままだと scrollLeft への代入が効かない。
