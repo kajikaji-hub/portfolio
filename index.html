@@ -125,11 +125,11 @@
     inset: -6% -10%;
     z-index: -2;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     align-items: center;
     justify-items: center;
-    gap: clamp(10px, 1.6vw, 22px);
-    transform: rotate(-7deg) scale(1.12);
+    gap: clamp(16px, 2.6vw, 40px);
+    transform: rotate(-7deg) scale(1.24);
     opacity: 0.72;
   }
   /* 各カラムをスマホの筐体に見立てる（ベゼル＋ノッチ） */
@@ -158,12 +158,14 @@
     z-index: 2;
   }
   /* 段違いに並べて“机に置いた何台か”の感じを出す */
-  .hero-wall .col:nth-child(1) { transform: translateY(-9%); }
-  .hero-wall .col:nth-child(2) { transform: translateY(6%); }
-  .hero-wall .col:nth-child(3) { transform: translateY(-4%); }
-  .hero-wall .col:nth-child(4) { transform: translateY(9%); }
-  .hero-wall .col:nth-child(5) { transform: translateY(-6%); }
-  .hero-wall .col:nth-child(6) { transform: translateY(4%); }
+  .hero-wall .col:nth-child(1) { transform: translateY(-11%); }
+  .hero-wall .col:nth-child(2) { transform: translateY(7%); }
+  .hero-wall .col:nth-child(3) { transform: translateY(-5%); }
+  .hero-wall .col:nth-child(4) { transform: translateY(11%); }
+  .hero-wall .col:nth-child(5) { transform: translateY(-8%); }
+  .hero-wall .col:nth-child(6) { transform: translateY(5%); }
+  .hero-wall .col:nth-child(7) { transform: translateY(-10%); }
+  .hero-wall .col:nth-child(8) { transform: translateY(8%); }
   /* iOSのvideo要素数の上限に引っかからないよう1カラム1要素に抑える */
   .hero-wall video {
     width: 100%;
@@ -319,7 +321,6 @@
   .nav:hover { transform: translateY(calc(-50% - 2px)); }
   .nav:active { transform: translateY(calc(-50% + 3px)); box-shadow: 0 1px 0 var(--ink); }
   .nav:focus-visible { outline: 4px solid var(--tier-s); outline-offset: 3px; }
-  .nav[disabled] { opacity: 0.28; cursor: default; box-shadow: 0 4px 0 var(--ink); }
   @media (pointer: fine) {
     .nav { display: grid; }
   }
@@ -550,12 +551,14 @@
 
 <header class="hero">
   <div class="hero-wall" aria-hidden="true">
-    <div class="col"><video data-wall="c1" muted loop playsinline autoplay preload="auto"></video></div>
-    <div class="col"><video data-wall="c2" muted loop playsinline autoplay preload="auto"></video></div>
-    <div class="col"><video data-wall="c3" muted loop playsinline autoplay preload="auto"></video></div>
-    <div class="col"><video data-wall="c4" muted loop playsinline autoplay preload="auto"></video></div>
-    <div class="col"><video data-wall="c2" muted loop playsinline autoplay preload="auto"></video></div>
-    <div class="col"><video data-wall="c3" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg1" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg2" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg3" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg4" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg5" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg6" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg7" muted loop playsinline autoplay preload="auto"></video></div>
+    <div class="col"><video data-wall="bg8" muted loop playsinline autoplay preload="auto"></video></div>
   </div>
   <div class="wrap hero-inner">
     <span class="name">梶原充稀／岡山</span>
@@ -639,7 +642,7 @@
 </main>
 
 <script>
-  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4", "p": "assets/w1.jpg"}, "w2": {"v": "assets/w2.mp4", "p": "assets/w2.jpg"}, "w3": {"v": "assets/w3.mp4", "p": "assets/w3.jpg"}, "w4": {"v": "assets/w4.mp4", "p": "assets/w4.jpg"}, "w5": {"v": "assets/w5.mp4", "p": "assets/w5.jpg"}, "w6": {"v": "assets/w6.mp4", "p": "assets/w6.jpg"}, "w7": {"v": "assets/w7.mp4", "p": "assets/w7.jpg"}, "w8": {"v": "assets/w8.mp4", "p": "assets/w8.jpg"}, "w9": {"v": "assets/w9.mp4", "p": "assets/w9.jpg"}}, "wall": {"c1": "wall/col1.mp4", "c2": "wall/col2.mp4", "c3": "wall/col3.mp4", "c4": "wall/col4.mp4"}, "sns": {}};
+  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4", "p": "assets/w1.jpg"}, "w2": {"v": "assets/w2.mp4", "p": "assets/w2.jpg"}, "w3": {"v": "assets/w3.mp4", "p": "assets/w3.jpg"}, "w4": {"v": "assets/w4.mp4", "p": "assets/w4.jpg"}, "w5": {"v": "assets/w5.mp4", "p": "assets/w5.jpg"}, "w6": {"v": "assets/w6.mp4", "p": "assets/w6.jpg"}, "w7": {"v": "assets/w7.mp4", "p": "assets/w7.jpg"}, "w8": {"v": "assets/w8.mp4", "p": "assets/w8.jpg"}, "w9": {"v": "assets/w9.mp4", "p": "assets/w9.jpg"}}, "wall": {"bg1": "wall/bg1.mp4", "bg2": "wall/bg2.mp4", "bg3": "wall/bg3.mp4", "bg4": "wall/bg4.mp4", "bg5": "wall/bg5.mp4", "bg6": "wall/bg6.mp4", "bg7": "wall/bg7.mp4", "bg8": "wall/bg8.mp4"}, "sns": {}};
 
   document.documentElement.classList.add("js");
 
@@ -734,6 +737,11 @@
     };
 
     btn.addEventListener("click", () => {
+      // 中央にいないカードを押したら、まず中央へ寄せるだけ
+      if (!art.classList.contains("active")) {
+        art.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", inline: "center", block: "nearest" });
+        return;
+      }
       if (frame.classList.contains("playing")) {
         stop();
         return;
@@ -804,19 +812,37 @@
         const d = Math.abs(r.left + r.width / 2 - center);
         if (d < bestDist) { bestDist = d; best = c; }
       });
-      cards.forEach((c) => c.classList.toggle("active", c === best));
-      // 端に着いたら矢印を無効化する
-      const max = scroller.scrollWidth - scroller.clientWidth - 2;
-      if (prev) prev.disabled = scroller.scrollLeft <= 2;
-      if (next) next.disabled = scroller.scrollLeft >= max;
+      cards.forEach((c) => {
+        const on = c === best;
+        c.classList.toggle("active", on);
+        // 中央から外れた作品は再生を止める（音が重ならないように）
+        if (!on) {
+          const v = c.querySelector("video");
+          const f = c.querySelector(".frame");
+          if (v && !v.paused) { v.pause(); v.currentTime = 0; v.muted = true; }
+          if (f) f.classList.remove("playing", "ready");
+        }
+      });
     };
 
     const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
     scroller.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
 
+    // 端まで行ったら反対の端へ回る（無限ループ）
     const go = (dir) => {
-      scroller.scrollBy({ left: dir * step(), behavior: REDUCED ? "auto" : "smooth" });
+      const cur = cards.findIndex((c) => c.classList.contains("active"));
+      const from = cur < 0 ? 0 : cur;
+      let to = from + dir;
+      let wrapped = false;
+      if (to < 0) { to = cards.length - 1; wrapped = true; }
+      if (to >= cards.length) { to = 0; wrapped = true; }
+      cards[to].scrollIntoView({
+        behavior: REDUCED || wrapped ? "auto" : "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+      requestAnimationFrame(update);
     };
     if (prev) prev.addEventListener("click", () => go(-1));
     if (next) next.addEventListener("click", () => go(1));
