@@ -562,6 +562,41 @@
   .offer-note span { display: block; }
   .offer-note span + span { margin-top: 4px; }
 
+  .sp-br { display: none; }
+  @media (max-width: 560px) { .sp-br { display: inline; } }
+
+  /* ---------- メッセージ（みつき自身の言葉） ---------- */
+  .message {
+    position: relative;
+    padding-left: clamp(18px, 3vw, 30px);
+  }
+  .message::before {
+    content: "";
+    position: absolute;
+    left: 0; top: .35em; bottom: .35em;
+    width: 5px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, var(--tier-a), var(--tier-s));
+  }
+  .message h2 {
+    font-size: clamp(1.5rem, 4.4vw, 2.3rem);
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: .01em;
+    margin-bottom: clamp(16px, 2.6vw, 24px);
+    text-wrap: balance;
+  }
+  .message p {
+    display: grid;
+    gap: .7em;
+    max-width: 30em;
+    font-size: clamp(0.95rem, 2.1vw, 1.06rem);
+    line-height: 1.95;
+    color: var(--ink-2);
+  }
+  .message p span { display: block; text-wrap: pretty; word-break: auto-phrase; }
+  .message p .last { color: var(--ink); font-weight: 800; }
+
   /* ---------- プロフィール ---------- */
   .profile dl {
     display: grid;
@@ -923,6 +958,15 @@
         </ul>
       </article>
     </div>
+  </section>
+
+  <section class="message reveal">
+    <h2>いただく1本の動画は<br class="sp-br">練習ではありません。</h2>
+    <p>
+      <span>将来は、地方の高校生とインフルエンサー・クリエイター・企業をつなぐ場をつくりたいと思っています。</span>
+      <span>そのためには、まず自分が「高校生に頼んでよかった」と言われる実績を積むしかありません。</span>
+      <span class="last">だから、最初の1本から本気でつくります。</span>
+    </p>
   </section>
 
   <section class="reveal tint">
