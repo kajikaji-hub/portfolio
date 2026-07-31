@@ -597,6 +597,33 @@
   .message p span { display: block; text-wrap: pretty; word-break: auto-phrase; }
   .message p .last { color: var(--ink); font-weight: 800; }
 
+  /* ---------- 作品の数字（再生回数・いいね） ---------- */
+  .work .stats {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .work .stats i {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-style: normal;
+  }
+  .work .stats svg { width: 1.05em; height: 1.05em; flex: none; }
+  .work .stats .play-ic { fill: var(--tier-b); }
+  .work .stats .like-ic { fill: var(--tier-a); }
+  .work .asof {
+    margin-top: 3px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
   /* ---------- プロフィール ---------- */
   .profile dl {
     display: grid;
@@ -1000,7 +1027,7 @@
 </main>
 
 <script>
-  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4?v=1785316392", "p": "assets/w1.jpg?v=1785296258"}, "w2": {"v": "assets/w2.mp4?v=1785316394", "p": "assets/w2.jpg?v=1785296258"}, "w3": {"v": "assets/w3.mp4?v=1785418364", "p": "assets/w3.jpg?v=1785418364"}, "w4": {"v": "assets/w4.mp4?v=1785420140", "p": "assets/w4.jpg?v=1785420140"}, "w5": {"v": "assets/w5.mp4?v=1785316401", "p": "assets/w5.jpg?v=1785296258"}, "w6": {"v": "assets/w6.mp4?v=1785316404", "p": "assets/w6.jpg?v=1785296258"}, "w7": {"v": "assets/w7.mp4?v=1785316406", "p": "assets/w7.jpg?v=1785296258"}, "w8": {"v": "assets/w8.mp4?v=1785316410", "p": "assets/w8.jpg?v=1785296258"}, "w9": {"v": "assets/w9.mp4?v=1785316412", "p": "assets/w9.jpg?v=1785296258"}}, "wall": {"bg1": "wall/bg1.mp4?v=1785418403", "bg2": "wall/bg2.mp4?v=1785418404", "bg3": "wall/bg3.mp4?v=1785418406", "bg4": "wall/bg4.mp4?v=1785418407", "bg5": "wall/bg5.mp4?v=1785418409", "bg6": "wall/bg6.mp4?v=1785418410", "bg7": "wall/bg7.mp4?v=1785418411", "bg8": "wall/bg8.mp4?v=1785418412", "bg9": "wall/bg9.mp4?v=1785425681", "bg10": "wall/bg10.mp4?v=1785425683"}, "wallPoster": {"bg1": "wall/bg1.jpg?v=1785421677", "bg2": "wall/bg2.jpg?v=1785421677", "bg3": "wall/bg3.jpg?v=1785421677", "bg4": "wall/bg4.jpg?v=1785421677", "bg5": "wall/bg5.jpg?v=1785421677", "bg6": "wall/bg6.jpg?v=1785421677", "bg7": "wall/bg7.jpg?v=1785421678", "bg8": "wall/bg8.jpg?v=1785421678", "bg9": "wall/bg9.jpg?v=1785425681", "bg10": "wall/bg10.jpg?v=1785425683"}, "sns": {"w1": "https://www.tiktok.com/@kodama_teacher/video/7665680761323851016", "w2": "https://www.tiktok.com/@kodama_teacher/video/7660103745593773319", "w3": "https://www.tiktok.com/@kodama_teacher/video/7650819343189626119", "w4": "https://www.tiktok.com/@1ziku_gakuen/video/7659732575887363335", "w5": "https://www.tiktok.com/@seishun.nikki/video/7623348941794348296", "w6": "https://www.tiktok.com/@seishun.nikki/video/7496801087526145288", "w7": "https://www.tiktok.com/@seishun.nikki/video/7636735741611035912", "w8": "https://www.tiktok.com/@seishun.nikki/video/7629664872808205576", "w9": "https://www.tiktok.com/@seishun.nikki/video/7498662785992248594"}};
+  const MEDIA = {"works": {"w1": {"v": "assets/w1.mp4?v=1785316392", "p": "assets/w1.jpg?v=1785296258"}, "w2": {"v": "assets/w2.mp4?v=1785316394", "p": "assets/w2.jpg?v=1785296258"}, "w3": {"v": "assets/w3.mp4?v=1785418364", "p": "assets/w3.jpg?v=1785418364"}, "w4": {"v": "assets/w4.mp4?v=1785420140", "p": "assets/w4.jpg?v=1785420140"}, "w5": {"v": "assets/w5.mp4?v=1785316401", "p": "assets/w5.jpg?v=1785296258"}, "w6": {"v": "assets/w6.mp4?v=1785316404", "p": "assets/w6.jpg?v=1785296258"}, "w7": {"v": "assets/w7.mp4?v=1785316406", "p": "assets/w7.jpg?v=1785296258"}, "w8": {"v": "assets/w8.mp4?v=1785316410", "p": "assets/w8.jpg?v=1785296258"}, "w9": {"v": "assets/w9.mp4?v=1785316412", "p": "assets/w9.jpg?v=1785296258"}}, "wall": {"bg1": "wall/bg1.mp4?v=1785418403", "bg2": "wall/bg2.mp4?v=1785418404", "bg3": "wall/bg3.mp4?v=1785418406", "bg4": "wall/bg4.mp4?v=1785418407", "bg5": "wall/bg5.mp4?v=1785418409", "bg6": "wall/bg6.mp4?v=1785418410", "bg7": "wall/bg7.mp4?v=1785418411", "bg8": "wall/bg8.mp4?v=1785418412", "bg9": "wall/bg9.mp4?v=1785425681", "bg10": "wall/bg10.mp4?v=1785425683"}, "wallPoster": {"bg1": "wall/bg1.jpg?v=1785421677", "bg2": "wall/bg2.jpg?v=1785421677", "bg3": "wall/bg3.jpg?v=1785421677", "bg4": "wall/bg4.jpg?v=1785421677", "bg5": "wall/bg5.jpg?v=1785421677", "bg6": "wall/bg6.jpg?v=1785421677", "bg7": "wall/bg7.jpg?v=1785421678", "bg8": "wall/bg8.jpg?v=1785421678", "bg9": "wall/bg9.jpg?v=1785425681", "bg10": "wall/bg10.jpg?v=1785425683"}, "sns": {"w1": "https://www.tiktok.com/@kodama_teacher/video/7665680761323851016", "w2": "https://www.tiktok.com/@kodama_teacher/video/7660103745593773319", "w3": "https://www.tiktok.com/@kodama_teacher/video/7650819343189626119", "w4": "https://www.tiktok.com/@1ziku_gakuen/video/7659732575887363335", "w5": "https://www.tiktok.com/@seishun.nikki/video/7623348941794348296", "w6": "https://www.tiktok.com/@seishun.nikki/video/7496801087526145288", "w7": "https://www.tiktok.com/@seishun.nikki/video/7636735741611035912", "w8": "https://www.tiktok.com/@seishun.nikki/video/7629664872808205576", "w9": "https://www.tiktok.com/@seishun.nikki/video/7498662785992248594"}, "stats": {"w1": {"v": "36.7万", "l": "6900"}, "w2": {"v": "14.7万", "l": "3100"}, "w3": {"v": "124万", "l": "2.2万"}, "w4": {"v": "5.7万", "l": "560"}, "w5": {"v": "313万", "l": "3.7万"}, "w6": {"v": "21.4万", "l": "6000"}, "w7": {"v": "39.2万", "l": "5500"}, "w8": {"v": "140万", "l": "1.4万"}, "w9": {"v": "17.6万", "l": "3200"}}, "statsDate": "2026年8月1日時点"};
 
   document.documentElement.classList.add("js");
 
@@ -1072,6 +1099,23 @@
   const grid = document.getElementById("works");
   const N = WORKS.length;
 
+  // 再生回数といいね数。stats.txt に書いた作品にだけ出る
+  const STATS = MEDIA.stats || {};
+  const STATS_DATE = MEDIA.statsDate || "";
+  const ICON_PLAY = '<svg class="play-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+  const ICON_LIKE = '<svg class="like-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.6-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.6 12c-2.1 4.3-9.6 9-9.6 9z"/></svg>';
+
+  const statsHtml = (id) => {
+    const st = STATS[id];
+    if (!st) return "";
+    const parts = [];
+    if (st.v) parts.push(`<i>${ICON_PLAY}${st.v}</i>`);
+    if (st.l) parts.push(`<i>${ICON_LIKE}${st.l}</i>`);
+    if (!parts.length) return "";
+    return `<div class="stats">${parts.join("")}</div>` +
+           (STATS_DATE ? `<div class="asof">${STATS_DATE}</div>` : "");
+  };
+
   const cardHtml = (w, withVideo) => {
     const m = MEDIA.works[w.id];
     return `
@@ -1084,6 +1128,7 @@
         </button>
       </div>
       <h3>${w.title}</h3>
+      ${statsHtml(w.id)}
       ${SNS[w.id] ? `<a class="sns" href="${SNS[w.id]}" target="_blank" rel="noopener noreferrer">投稿を見る（フル尺）↗</a>` : ""}
     `;
   };
